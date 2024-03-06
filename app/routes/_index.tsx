@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { NavComponent } from "./nav"
+import { NavOuterComponent } from "../nav"
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,34 +11,23 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <>
-      <aside className="d-flex flex-column col col-lg-3 col-xl-2 col-xxl-2">
-        <div className="d-flex flex-row padded-menu align-items-center">
-          <p className="to-home nav-elem-1">
-            <a href="#" className="dotted-underline">На главную</a>
-          </p>
-          <div className="nav-elem-2">
-            <a href="mailto:dvagp@dvagp.ru" className="text-decoration-none">
-              <img src="assets/icon-contacts.gif" alt="contacts" />
-            </a>
-          </div>
-          <div>
-            <a href="sitemap/index.html" className="text-decoration-none" />
-            <a href="sitemap/index.html" className="text-decoration-none">
-              <img src="assets/icon-sitemap.gif" alt="sitemap" />
-            </a>
-          </div>
-        </div>
-        <div className="d-flex flex-column mt-4">
-          <div className="padded-map">
-            <p className="text-white text-wrap mb-0 text-center"><a href="#" className="text-inherit">Карта Дальнего Востока (топографическая)</a></p>
-          </div>
-        </div>
-      </aside>
+      <NavOuterComponent />
       <main className="d-flex flex-column col col-lg-6 col-xl-7 col-xxl-7">
         <h1 className="mb-4 text-start text-blue">О нашем предприятии</h1>
         <p className="text-start mt-0 smaller-text">Предприятие осуществляет топографо-геодезическое и картографическое обеспечение территории Дальнего Востока Российской Федерации, включая Хабаровский и Камчатский края,  Амурскую и Сахалинскую области, Еврейскую автономную область, что составляет около 2 миллионов квадратных километров, без учета территории шельфа дальневосточных морей.</p>
         <p className="padded-annot smaller-text">Имеет структурные подразделения в городах Хабаровске, Южно-Сахалинске, Петропавловске-Камчатском, Свободном</p>
       </main>
+      <aside className="d-flex flex-column col col-lg-3 col-xl-3 col-xxl-3">
+              <h1 className="mb-4 text-start text-blue mb-4">Новости</h1>
+              <div className="d-flex flex-column">
+                <p className="text-start fs-6 gray-text mb-0 mt-0">11.08.2022</p>
+                <p className="text-start"><a href="http://dvagp.ru/news/39436/" className="text-inherit fw-bold">Сообщение о проведении внеочередного Общего собрания акционеров акционерного общества «Дальневосточное аэрогеодезическое предприятие»</a></p>
+              </div>
+              <div className="d-flex flex-row align-items-center mt-3">
+                <img src="/assets/icon-archive.gif" alt="archive" className="me-1" />
+                <p className="mb-0"><a href="news/index.html" className="text-inherit">Архив новостей</a></p>
+              </div>
+            </aside>
     </>
   );
 }
