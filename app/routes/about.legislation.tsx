@@ -10,7 +10,7 @@ export const meta: MetaFunction = () => {
     ];
 };
 
-// const files = db.
+const files = await db.file.findMany()
 
 export default function Legislation() {
     return (
@@ -20,10 +20,13 @@ export default function Legislation() {
                 <Breadcrumbs prev="/about" nprev="О предприятии" />
                 <h1 className="text-blue">Законодательные основы</h1>
                 <h2 className="smaller-heading"></h2>
-                <a href="/files/UstavOAODVAGP.docx" className="fw-bold text-inherit smaller-text" download>Устав ОАО "ДВ АГП"</a>
-                <a href="/files/Ukaz296.docx" className="fw-bold text-inherit smaller-text" download>УКАЗ Президента РФ от 12 марта 2012 № 296 "ОБ ОТКРЫТОМ АКЦИОНЕРНОМ ОБЩЕСТВЕ "РОСКАРТОГРАФИЯ"</a>
-                <a href="/files/RoskartografiaDZO.docx" className="fw-bold text-inherit smaller-text" download>ПОРЯДОК ВЗАИМОДЕЙСТВИЯ ОАО «Роскартография» с открытыми акционерными обществами, акциями которых владеет ОАО «Роскартография»</a>
-                <a href="/files/Izm_v_ustav.docx" download className="fw-bold text-inherit smaller-text">Изменения в Устав ОАО "ДВ АГП"</a>
+                {files.map((file) => {
+                    return (
+                        <>
+                            <a href={"/files/"+file.filePath} className="fw-bold text-inherit smaller-text" download>{file.fileName}</a>
+                        </>
+                    )
+                })}
             </main>
         </>
     );
