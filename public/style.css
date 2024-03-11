@@ -302,6 +302,9 @@ table .row-h{
     border-radius: 1rem;
     padding: 2%;
 }
+:root{
+    --bs-primary: #2a4054
+}
 .send-btn{
     background-color: #2a4054;
     color: white;

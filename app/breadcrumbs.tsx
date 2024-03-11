@@ -1,6 +1,7 @@
 type BreadProps = {
     prev?: string,
     nprev?: string,
+    tek?: string
 }
 
 export function Breadcrumbs(props: BreadProps) {
@@ -15,7 +16,7 @@ export function Breadcrumbs(props: BreadProps) {
                         <a href={props.prev} className="text-inherit">{props.nprev}</a>
                         <img src="/assets/breadcrumbs-arrow.gif" alt="arrow" className="arrow mx-1" />
                     </> : <></>}
-                <p className="gray-text mb-0">Отправить сообщение</p>
+                <p className="gray-text mb-0">{props.tek}</p>
             </div>
         </>
     )

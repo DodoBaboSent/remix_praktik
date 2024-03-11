@@ -1,17 +1,28 @@
 
 import type {
   ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
 } from "@remix-run/node";
 import { Link, useActionData, useSearchParams } from "@remix-run/react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
 import { createUserSession, login } from "~/sessions.server";
 
+export const meta: MetaFunction = () => {
+  return [
+      { title: "Администрирование | Дальневосточное АГП" },
+      { name: "description", content: "Администрирование" },
+      { name: "robots", content: "none" },
+  ];
+};
+
 function validateUsername(username: string) {
   if (username.length < 3) {
     return "Usernames must be at least 3 characters long";
   }
 }
+
 
 function validatePassword(password: string) {
   if (password.length < 4) {
@@ -20,8 +31,10 @@ function validatePassword(password: string) {
 }
 
 function validateUrl(url: string) {
-  const urls = ["/admin", "/"];
+  console.log(url)
+  const urls = ["/admin", "/", "/admin/admin-panel"];
   if (urls.includes(url)) {
+    console.log(url)
     return url;
   }
   return "/";
@@ -35,6 +48,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const redirectTo = validateUrl(
     (form.get("redirectTo") as string) || "/"
   );
+  console.log(redirectTo)
   if (
     typeof loginType !== "string" ||
     typeof password !== "string" ||

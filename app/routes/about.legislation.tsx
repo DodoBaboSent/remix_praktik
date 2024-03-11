@@ -17,7 +17,7 @@ export default function Legislation() {
         <>
             <NavOuterComponent active="about" />
             <main className="d-flex flex-column col col-lg-6 col-xl-7 col-xxl-7">
-                <Breadcrumbs prev="/about" nprev="О предприятии" />
+                <Breadcrumbs prev="/about" nprev="О предприятии" tek="Законодательные основы"/>
                 <h1 className="text-blue">Законодательные основы</h1>
                 <h2 className="smaller-heading"></h2>
                 {files.map((file) => {

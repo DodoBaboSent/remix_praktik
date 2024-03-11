@@ -85,7 +85,7 @@ function NavComponent(props: NavProps) {
                     return (
                         group.links.map((group_link) => {
                             let href = "/"+link+"/"+group_link.link
-                            return <li key={group_link.link+"_li"}><a href={href} key={group_link.link} className="text-inherit">{group_link.name}</a></li>
+                            return <li key={group_link.link+"_li_i"}><a href={href} key={group_link.link+"_i"} className="text-inherit">{group_link.name}</a></li>
                         })
                     )
                 })}
@@ -95,7 +95,7 @@ function NavComponent(props: NavProps) {
 
     return (
         <>
-            <ul className="list-style-none nav-cust">
+            <ul className="list-style-none nav-cust" key={"nav_links_list"}>
                 {groups.map((link) => {
                     let href = "/"+link.link
                     return (

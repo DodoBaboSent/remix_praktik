@@ -11,7 +11,7 @@ datasource db {
 }
 
 model File {
-  id Int @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   filePath String
   fileName String
 }
@@ -22,5 +22,28 @@ model User {
   updatedAt    DateTime @updatedAt
   username     String   @unique
   passwordHash String
-  role String @default("moderator")
+  role         String   @default("moderator")
+}
+
+model TechGroup {
+  id      String    @id @default(uuid())
+  name    String @unique
+  tech    Tech[]
+  techImg TechImg[]
+}
+
+model Tech {
+  id          String     @id @default(uuid())
+  name        String
+  quant       Int
+  TechGroup   TechGroup? @relation(fields: [techGroupId], references: [id])
+  techGroupId String?
+}
+
+model TechImg {
+  id          String     @id @default(uuid())
+  name        String
+  img         String
+  TechGroup   TechGroup? @relation(fields: [techGroupId], references: [id])
+  techGroupId String?
 }

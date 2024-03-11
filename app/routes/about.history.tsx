@@ -14,7 +14,7 @@ export default function About() {
         <>
             <NavOuterComponent active="about" />
             <main className="d-flex flex-column col col-lg-9 col-xl-10 col-xxl-10">
-                <Breadcrumbs prev="/about" nprev="О предприятии" />
+                <Breadcrumbs prev="/about" nprev="О предприятии" tek="История предприятия"/>
                 <h1 className="text-blue">История предприятия</h1>
                 <h2 className="smaller-heading"></h2>
                 <p className="smaller-text">07.07.1954 г. - создан  отдельно  действующий  топографогеодезический  отряд №216  с  непосредственным  подчинением ГУГК МВД СССР в г. Хабаровске.</p>

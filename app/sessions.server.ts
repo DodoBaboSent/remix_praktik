@@ -76,6 +76,19 @@ export async function getUserId(request: Request) {
   return userId;
 }
 
+export async function getUser(request:Request) {
+  const userId = await getUserId(request)
+  if (!userId || typeof userId !== "string") {
+    return null;
+  }
+  const user = await db.user.findFirstOrThrow({
+    where: {
+      id: userId,
+    }
+  })
+  return user;
+}
+
 export async function requireUserId(
   request: Request,
   redirectTo: string = new URL(request.url).pathname
@@ -86,7 +99,20 @@ export async function requireUserId(
     const searchParams = new URLSearchParams([
       ["redirectTo", redirectTo],
     ]);
-    throw redirect(`/login?${searchParams}`);
+    throw redirect(`/admin?${searchParams}`);
   }
   return userId;
+}
+
+export async function requireUser(request:Request, redirectTo: string = new URL(request.url).pathname) {
+  const userId = await requireUserId(request, redirectTo)
+  if (!userId || typeof userId !== "string") {
+    return null;
+  }
+  const user = await db.user.findFirstOrThrow({
+    where: {
+      id: userId,
+    }
+  })
+  return user;
 }
