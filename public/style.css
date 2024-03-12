@@ -83,6 +83,9 @@ a.dotted-underline{
     color: inherit;
     text-decoration: underline dotted;
 }
+label.admin-tab:hover{
+    background-color: var(--bs-primary) !important;
+}
 ul.list-style-none{
     list-style-type: none;
     margin-left: 0 !important;
