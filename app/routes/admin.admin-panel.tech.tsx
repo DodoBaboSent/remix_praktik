@@ -11,11 +11,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const techGroup = await db.techGroup.findMany()
     const techImg = await db.techImg.findMany()
     const tech = await db.tech.findMany()
-    return json({user, tech, techGroup, techImg})
+    return json({ user, tech, techGroup, techImg })
 }
 
 export default function AdminPanel() {
-    const {user, tech, techGroup, techImg} = useLoaderData<typeof loader>()
+    const { user, tech, techGroup, techImg } = useLoaderData<typeof loader>()
 
     const [tab, setTab] = useState("group")
 
@@ -30,18 +30,40 @@ export default function AdminPanel() {
                 <fieldset>
                     <legend>Оснащение</legend>
                     <label className="border rounded p-2 bg-primary text-light admin-tab">
-                        <input type="radio" name="tab" id="tabType" value="group" checked={tab == "group"} onChange={onOptionChange} hidden/>
+                        <input type="radio" name="tab" id="tabType" value="group" checked={tab == "group"} onChange={onOptionChange} hidden />
                         {"  "}Группы
                     </label>
                     <label className="border rounded p-2 bg-primary text-light admin-tab">
-                        <input type="radio" name="tab" id="tabType" value="img" checked={tab == "img"} onChange={onOptionChange} hidden/>
+                        <input type="radio" name="tab" id="tabType" value="img" checked={tab == "img"} onChange={onOptionChange} hidden />
                         {"  "}Изображения
                     </label>
                     <label className="border rounded p-2 bg-primary text-light admin-tab">
-                        <input type="radio" name="tab" id="tabType" value="tech" checked={tab == "tech"} onChange={onOptionChange} hidden/>
+                        <input type="radio" name="tab" id="tabType" value="tech" checked={tab == "tech"} onChange={onOptionChange} hidden />
                         {"  "}Оборудование
                     </label>
                 </fieldset>
+                <div className="d-flex flex-column p-2">
+                    {tab == "group" ? <>
+                        <h1>Группы</h1>
+                        <div className="d-flex flex-column p-3 border rounded">
+                            {techGroup.map((El) => {
+                                return (<>
+                                    <div className="d-flex flex-row border-bottom panel-row" key={El.id+"_div"}>
+                                        <p className="border-end p-2 m-0" style={{width: "400px"}} key={El.id+"_id"}>{El.id}</p>
+                                        <p className="border-end p-2 m-0" style={{width: "400px"}} key={El.id+"_name"}>{El.name}</p>
+                                        <a href={"/admin/delGroup/"+El.id} className="text-light m-0 p-2 bg-danger">Удалить</a>
+                                        <a href={"/admin/chgGroup/"+El.id} className="text-light m-0 p-2 bg-success">Редактировать</a>
+                                    </div>
+                                </>)
+                            })}
+                            <a href={"/admin/addGroup/"} className="p-3 m-0 bg-success text-light mt-2">Создать группу</a>
+                        </div>
+                    </> : tab == "img" ? <>
+                        <h1>Imgs</h1>
+                    </> : <>
+                        <h1>Tech</h1>
+                    </>}
+                </div>
             </form>
         </>
     );

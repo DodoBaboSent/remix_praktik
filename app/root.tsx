@@ -9,6 +9,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { useEffect, useState } from "react";
+import { AdmNav } from "./admnav";
 
 export const links: LinksFunction = () => [
   {
@@ -67,7 +68,9 @@ export default function App() {
         <LiveReload />
         <header className="bg-header-right d-flex flex-row w-100" style={{ justifyContent: (windowSize.windowWidth >= 1366) ? "space-around" : undefined }}>
           <div className="d-flex align-items-center logo">
-            <img src="/assets/logoDVAGP.gif" alt="logo" className="img-logo" />
+            <a href="/">
+              <img src="/assets/logoDVAGP.gif" alt="logo" className="img-logo" />
+            </a>
           </div>
           <div className="d-flex flex-column justify-content-center">
             <div className="d-flex flex-row mb-3">
@@ -84,7 +87,9 @@ export default function App() {
         </header>
         <div className="container-fluid flex-row mt-4 mb-5">
           <div className="row px-2">
-            <Outlet />
+            <AdmNav>
+              <Outlet />
+            </AdmNav>
           </div>
         </div>
         <footer className="container-fluid flex-row pt-4">

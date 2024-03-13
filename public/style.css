@@ -84,7 +84,14 @@ a.dotted-underline{
     text-decoration: underline dotted;
 }
 label.admin-tab:hover{
-    background-color: var(--bs-primary) !important;
+    background-color: black !important;
+    cursor: pointer;
+}
+.panel-row:hover{
+    background-color: var(--bs-primary);
+}
+.panel-row:hover > p{
+    color: white;
 }
 ul.list-style-none{
     list-style-type: none;
