@@ -19,8 +19,8 @@ export default function AdminPanel() {
 
     return (
         <>
-            <h1>{user?.username}</h1>
-            <h1>{user?.role}</h1>
+            <h1>Панель администратора</h1>
+            <h3>Уровень пользователя: {user?.role}</h3>
             <div className="d-flex flex-column border rounded p-2">
                 <AdTab href={tabs} />
                 <Outlet></Outlet>

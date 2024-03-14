@@ -31,10 +31,8 @@ function validatePassword(password: string) {
 }
 
 function validateUrl(url: string) {
-  console.log(url)
   const urls = ["/admin", "/", "/admin/admin-panel"];
   if (urls.includes(url)) {
-    console.log(url)
     return url;
   }
   return "/";

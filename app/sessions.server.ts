@@ -81,7 +81,7 @@ export async function getUser(request:Request) {
   if (!userId || typeof userId !== "string") {
     return null;
   }
-  const user = await db.user.findFirstOrThrow({
+  const user = await db.user.findFirst({
     where: {
       id: userId,
     }
@@ -109,7 +109,7 @@ export async function requireUser(request:Request, redirectTo: string = new URL(
   if (!userId || typeof userId !== "string") {
     return null;
   }
-  const user = await db.user.findFirstOrThrow({
+  const user = await db.user.findFirst({
     where: {
       id: userId,
     }

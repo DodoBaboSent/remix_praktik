@@ -1,5 +1,5 @@
 
-import type { LinksFunction } from "@remix-run/node";
+import { LinksFunction, LoaderFunctionArgs, json } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -7,9 +7,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { AdmNav } from "./admnav";
+import { getUser } from "./sessions.server";
 
 export const links: LinksFunction = () => [
   {
@@ -29,7 +31,13 @@ export const links: LinksFunction = () => [
   },
 ];
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  const user = await getUser(request)
+  return json(user)
+}
+
 export default function App() {
+  const user = useLoaderData<typeof loader>()
 
   const [windowSize, setWindowSize] = useState({
     windowWidth: 0
@@ -87,7 +95,7 @@ export default function App() {
         </header>
         <div className="container-fluid flex-row mt-4 mb-5">
           <div className="row px-2">
-            <AdmNav>
+            <AdmNav user={{...user}}>
               <Outlet />
             </AdmNav>
           </div>

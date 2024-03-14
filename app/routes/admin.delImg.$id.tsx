@@ -5,7 +5,7 @@ import { db } from "~/db.server";
 
 
 export async function loader({ params }: LoaderFunctionArgs) {
-    const delete_id = await db.techGroup.delete({
+    const delete_id = await db.techImg.delete({
         where: {
             id: params.id
         }
