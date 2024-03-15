@@ -7,6 +7,7 @@ import {
 } from "@remix-run/node";
 import type { LoaderFunctionArgs, NodeOnDiskFile } from "@remix-run/node";
 import { useActionData, useLoaderData } from "@remix-run/react";
+import { useState } from "react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
 
@@ -16,9 +17,24 @@ function validateFile(img_file: NodeOnDiskFile) {
     }
 }
 
-function validateName(img_name: string) {
+async function validateGroup(img_group: string){
+    const techGroup = await db.techGroup.findMany()
+    if (!techGroup.find((haystack) => haystack.id == img_group)) {
+        return "Группа не найдена"
+    }
+}
+
+async function validateName(img_name: string) {
     if (img_name.length == 0) {
         return "Название не может быть пустым"
+    }
+    const overlap = await db.techImg.findFirst({
+        where: {
+            name: img_name
+        }
+    })
+    if (overlap !== null) {
+        return "Такое имя уже занято"
     }
 }
 
@@ -38,10 +54,12 @@ export async function action({ request }: ActionFunctionArgs) {
     const form = await unstable_parseMultipartFormData(request, uploadHandler)
     const img_name = form.get("imgName")
     let img_file = form.get("imgFile") as NodeOnDiskFile;
+    const img_group = form.get("imgGroup")
     if (
         typeof img_name !== "string" ||
         img_file.size == null ||
-        img_file.size == 0
+        img_file.size == 0 ||
+        typeof img_group !== "string"
     ) {
         return badRequest({
             fieldErrors: null,
@@ -49,22 +67,24 @@ export async function action({ request }: ActionFunctionArgs) {
             formError: "Некоторые поля отсутствуют.",
         });
     }
-    const fields = { img_name, img_file };
+    const fields = { img_name, img_file, img_group };
     const fieldErrors = {
         img_file: validateFile(img_file),
-        img_name: validateName(img_name),
+        img_name: await validateName(img_name),
+        img_group: await validateGroup(img_group)
     };
     if (Object.values(fieldErrors).some(Boolean)) {
         return badRequest({
-          fieldErrors,
-          fields,
-          formError: null,
+            fieldErrors,
+            fields,
+            formError: null,
         });
-      }
+    }
     const new_img = await db.techImg.create({
         data: {
             name: img_name!.toString(),
             img: img_file!.name,
+            techGroupId: img_group!.toString(),
         }
     })
     throw redirect("/admin/admin-panel/tech")
@@ -80,6 +100,8 @@ export default function AdminPanel() {
     const action_data = useActionData<typeof action>()
     const techGroups = useLoaderData<typeof loader>()
 
+    const [showGroups, setShowGroups] = useState(false)
+
     return (
         <>
             <form className="p-3 border rounded d-flex flex-column" method="post" encType="multipart/form-data">
@@ -87,22 +109,61 @@ export default function AdminPanel() {
                     <label htmlFor="imgName_id">Название</label>
                     <input type="text" name="imgName" id="imgName_id" defaultValue={action_data?.fields?.img_name} />
                 </div>
-                {action_data?.fieldErrors?.img_name ? <>
-                    <div className="p-3 rounded bg-danger">
+                {action_data?.fieldErrors?.img_name ? (
+                    <div className="p-3 rounded bg-danger mt-2">
                         <p className="text-light fw-bold m-0">{action_data.fieldErrors.img_name}</p>
                     </div>
-                </> : null}
+                ) : null}
                 <div className="d-flex flex-column">
-                    <label htmlFor="imgName_id">Файл</label>
+                    <label htmlFor="imgFile_id">Файл</label>
                     <input type="file" name="imgFile" id="imgFile_id" />
                 </div>
-                {action_data?.fieldErrors?.img_file ? <>
-                    <div className="p-3 rounded bg-danger">
+                {action_data?.fieldErrors?.img_file ? (
+                    <div className="p-3 rounded bg-danger mt-2">
                         <p className="text-light fw-bold m-0">{action_data.fieldErrors.img_file}</p>
                     </div>
-                </> : null}
+                ) : null}
+                <div className="d-flex flex-column">
+                    <label htmlFor="imgGroup_id">Группа</label>
+                    <input type="text" name="imgGroup" id="imgGroup_id" />
+                </div>
+                {action_data?.fieldErrors?.img_group ? (
+                    <div className="p-3 rounded bg-danger mt-2">
+                        <p className="text-light fw-bold m-0">{action_data.fieldErrors.img_group}</p>
+                    </div>
+                ) : null}
                 <button type="submit" className="btn btn-primary mt-3">Добавить</button>
+                <div id="form-error-message">
+                    {action_data?.formError ? (
+                        <p
+                            className="border p-3 rounded border-danger mt-1"
+                            role="alert"
+                        >
+                            {action_data.formError}
+                        </p>
+                    ) : null}
+                </div>
             </form>
+            {showGroups ? <>
+                <div className="border rounded p-3 d-flex flex-row mt-2 hover-cursor" onClick={() => setShowGroups(false)}>
+                    <p className="fw-bold m-0">▼ Нажмите, чтобы скрыть список групп</p>
+                </div>
+                <h1>Группы</h1>
+                <div className="d-flex flex-column p-3 border rounded">
+                    {techGroups.map((El) => {
+                        return (<>
+                            <div className="d-flex flex-row border-bottom panel-row" key={El.id + "_div"}>
+                                <p className="border-end p-2 m-0" style={{ width: "400px" }} key={El.id + "_id"}>{El.id}</p>
+                                <p className="border-end p-2 m-0" style={{ width: "400px" }} key={El.id + "_name"}>{El.name}</p>
+                            </div>
+                        </>)
+                    })}
+                </div>
+            </> : <>
+                <div className="border rounded p-3 d-flex flex-row mt-2 hover-cursor" onClick={() => setShowGroups(true)}>
+                    <p className="fw-bold m-0">▼ Нажмите, чтобы раскрыть список групп</p>
+                </div>
+            </>}
         </>
     );
 }

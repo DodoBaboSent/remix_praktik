@@ -80,7 +80,26 @@ export default function AdminPanel() {
                             <a href={"/admin/addImg/"} className="p-3 m-0 bg-success text-light mt-2">Создать изображение</a>
                         </div>
                     </> : <>
-                        <h1>Tech</h1>
+                    <h1>Техника</h1>
+                        <div className="d-flex flex-column p-3 border rounded">
+                            {tech.map((El) => {
+                                return (<>
+                                    <div className="d-flex flex-row border-bottom panel-row" key={El.id + "_div"}>
+                                        <p className="border-end p-2 m-0" style={{ width: "400px" }} key={El.id + "_id"}>{El.id}</p>
+                                        <p className="border-end p-2 m-0" style={{ width: "400px" }} key={El.id + "_name"}>{El.name}</p>
+                                        <p className="border-end p-2 m-0" style={{ width: "400px" }} key={El.id + "_img"}>{El.quant}</p>
+                                        <p className="border-end p-2 m-0" style={{ width: "400px" }} key={El.id + "_grp"}>
+                                            {techGroup.find((haystack) => {
+                                                return haystack.id == El.techGroupId
+                                            })?.name}
+                                        </p>
+                                        <a href={"/admin/delTech/" + El.id} className="text-light m-0 p-2 bg-danger">Удалить</a>
+                                        <a href={"/admin/chgTech/" + El.id} className="text-light m-0 p-2 bg-success">Редактировать</a>
+                                    </div>
+                                </>)
+                            })}
+                            <a href={"/admin/addTech/"} className="p-3 m-0 bg-success text-light mt-2">Создать технику</a>
+                        </div>
                     </>}
                 </div>
             </form>

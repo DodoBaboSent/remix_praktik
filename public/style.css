@@ -87,6 +87,9 @@ label.admin-tab:hover{
     background-color: black !important;
     cursor: pointer;
 }
+.hover-cursor:hover{
+    cursor: pointer;
+}
 .panel-row:hover{
     background-color: var(--bs-primary);
 }
