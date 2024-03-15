@@ -14,6 +14,7 @@ model File {
   id       Int    @id @default(autoincrement())
   filePath String
   fileName String
+  type     String
 }
 
 model User {
@@ -27,7 +28,7 @@ model User {
 
 model TechGroup {
   id      String    @id @default(uuid())
-  name    String @unique
+  name    String    @unique
   tech    Tech[]
   techImg TechImg[]
 }
@@ -46,4 +47,19 @@ model TechImg {
   img         String
   TechGroup   TechGroup? @relation(fields: [techGroupId], references: [id])
   techGroupId String?
+}
+
+model PhotoAlbum {
+  id     String @id @default(uuid())
+  name   String @unique
+  thumb  String
+  images Img[]
+}
+
+model Img {
+  id           String      @id @default(uuid())
+  name         String
+  filePath     String
+  PhotoAlbum   PhotoAlbum? @relation(fields: [photoAlbumId], references: [id])
+  photoAlbumId String?
 }

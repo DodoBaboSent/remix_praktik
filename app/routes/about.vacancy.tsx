@@ -29,28 +29,10 @@ export default function Legislation() {
         <Breadcrumbs
           prev="/about"
           nprev="О предприятии"
-          tek="Законодательные основы"
+          tek="Вакансии"
         />
-        <h1 className="text-blue">Законодательные основы</h1>
-        <h2 className="smaller-heading"></h2>
-        {files.map((file) => {
-          if (file.type === "leg") {
-            return (
-              <>
-                <a
-                  href={"/files/" + file.filePath}
-                  className="fw-bold text-inherit smaller-text"
-                  download
-                  key={file.id+file.type+"_dwld"}
-                >
-                  Скачать {file.fileName} ({file.filePath})
-                </a>
-              </>
-            );
-          } else {
-            return <></>;
-          }
-        })}
+        <h1 className="text-blue">Кадры, вакансии</h1>
+        <h2 className="smaller-heading">---</h2>
       </main>
     </>
   );

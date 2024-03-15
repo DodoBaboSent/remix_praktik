@@ -314,7 +314,7 @@ async function seed() {
     const tech11 = await db.techImg.create({
         data: {
             name: "DNA-03",
-            img: "tech 11.jpeg",
+            img: "tech 11.jpg",
             TechGroup: {
                 connectOrCreate: {
                     where: {
@@ -1031,6 +1031,167 @@ async function seed() {
             }
         }
     })
+    const izmUst = await db.file.create({
+        data:{
+            fileName: "Изменения в Устав ОАО \"ДВ АГП\"",
+            filePath: "Izm_v_ustav.docx",
+            type: "leg"
+        }
+    })
+    const RoskartografiaDZO = await db.file.create({
+        data:{
+            fileName: "ПОРЯДОК ВЗАИМОДЕЙСТВИЯ ОАО «Роскартография» с открытыми акционерными обществами, акциями которых владеет ОАО «Роскартография»",
+            filePath: "RoskartografiaDZO.docx",
+            type: "leg"
+        }
+    })
+    const Ukaz296 = await db.file.create({
+        data:{
+            fileName: "УКАЗ Президента РФ от 12 марта 2012 № 296 \"ОБ ОТКРЫТОМ АКЦИОНЕРНОМ ОБЩЕСТВЕ \"РОСКАРТОГРАФИЯ\"",
+            filePath: "Ukaz296.docx",
+            type: "leg"
+        }
+    })
+    const UstavOAODVAGP = await db.file.create({
+        data:{
+            fileName: "Устав ОАО \"ДВ АГП\"",
+            filePath: "UstavOAODVAGP.docx",
+            type: "leg"
+        }
+    })
+    const lic1 = await db.file.create({
+        data:{
+            fileName: "Лицензия · на· осуществление· геодезических и картографических работ, 27-000001Ф от 31 марта 2015г. Переоформлена 21 марта 2017г. (Страница 1)",
+            filePath: "lic 1.jpg",
+            type: "lic"
+        }
+    })
+    const lic2 = await db.file.create({
+        data:{
+            fileName: "Лицензия · на· осуществление· геодезических и картографических работ, 27-000001Ф от 31 марта 2015г. Переоформлена 21 марта 2017г. (Страница 2)",
+            filePath: "lic 2.jpg",
+            type: "lic"
+        }
+    })
+    const lic3 = await db.file.create({
+        data:{
+            fileName: "Приложение к лицензии 27-000001Ф от 31 марта 2015 г.  Переоформлена 21 марта 2017г. (Страница 1)",
+            filePath: "lic 3.jpg",
+            type: "lic"
+        }
+    })
+    const lic4 = await db.file.create({
+        data:{
+            fileName: "Приложение к лицензии 27-000001Ф от 31 марта 2015 г. (Страница 2)",
+            filePath: "lic 4.jpg",
+            type: "lic"
+        }
+    })
+    const lic5 = await db.file.create({
+        data:{
+            fileName: "Свидетельство о допуске к определенному виду или видам работ, которые оказывают влияние на безопасность объектов капитального строительства, 01-И-№ 0763-4 от 15 июля 2015г. (Страница 1)",
+            filePath: "lic 5.jpg",
+            type: "lic"
+        }
+    })
+    const lic6 = await db.file.create({
+        data:{
+            fileName: "Свидетельство о допуске к определенному виду или видам работ, которые оказывают влияние на безопасность объектов капитального строительства, 01-И-№ 0763-4 от 15 июля 2015г. (Страница 2)",
+            filePath: "lic 6.jpg",
+            type: "lic"
+        }
+    })
+    const lic7 = await db.file.create({
+        data:{
+            fileName: "Свидетельство о допуске к определенному виду или видам работ, которые оказывают влияние на безопасность объектов капитального строительства, 01-И-№ 0763-4 от 15 июля 2015г. (Страница 3)",
+            filePath: "lic 7.jpg",
+            type: "lic"
+        }
+    })
+    const lic8 = await db.file.create({
+        data:{
+            fileName: "Лицензия на осуществление работ, связанных с использованием сведений, составляющих государственную тайну (степень секретности СС) ГТ №0074248 от 01 июня 2016г.",
+            filePath: "lic 8.jpg",
+            type: "lic"
+        }
+    })
+    const lic9 = await db.file.create({
+        data:{
+            fileName: "Сертификат соответствия требованиям ГОСТ Р ИСО 9001-2011 (ISO 9001:2011).",
+            filePath: "lic 9.jpg",
+            type: "lic"
+        }
+    })
+    const lic10 = await db.file.create({
+        data:{
+            fileName: "Сертификат соответствия требованиям ГОСТ Р ИСО 9001-2011 (ISO 9001:2011) (2).",
+            filePath: "lic 10.jpg",
+            type: "lic"
+        }
+    })
+    const lic11 = await db.file.create({
+        data:{
+            fileName: "Аттестат аккредитации в области обеспечения единства измерений   -  признание компетентности выполнять работы и оказывать услуги по поверке средств измерений.",
+            filePath: "lic 11.jpg",
+            type: "lic"
+        }
+    })
+    const lic12 = await db.file.create({
+        data:{
+            fileName: "Аттестат аккредитации в области обеспечения единства измерений   -  признание компетентности выполнять работы и оказывать услуги по поверке средств измерений. (2)",
+            filePath: "lic 12.jpg",
+            type: "lic"
+        }
+    })
+    const lic13 = await db.file.create({
+        data:{
+            fileName: "Сводная ведомость результатов проведения специальной оценки условий труда.",
+            filePath: "lic 13.jpg",
+            type: "lic"
+        }
+    })
+    const lic14 = await db.file.create({
+        data:{
+            fileName: "Сводная ведомость результатов проведения специальной оценки условий труда. (2)",
+            filePath: "lic 14.jpg",
+            type: "lic"
+        }
+    })
+    const lic15 = await db.file.create({
+        data:{
+            fileName: "Сводная ведомость результатов проведения специальной оценки условий труда. (3)",
+            filePath: "lic 15.jpg",
+            type: "lic"
+            
+        }
+    })
+    const lic16 = await db.file.create({
+        data:{
+            fileName: "Перечень рекомендуемых мероприятий по улучшению условий труда.",
+            filePath: "lic 16.jpg",
+            type: "lic"
+        }
+    })
+
+    for (let index = 1; index <= 18; index++) {
+        let img = await db.img.create({
+            data:{
+                name: "tech "+index,
+                filePath: "tech "+index+".jpg",
+                PhotoAlbum: {
+                    connectOrCreate: {
+                        where: {
+                            name: "Техническое оснащение"
+                        },
+                        create: {
+                            name: "Техническое оснащение",
+                            thumb: "tech 1.jpg"
+                        }
+                    }
+                }
+            }
+        })        
+    }
 }
 
 

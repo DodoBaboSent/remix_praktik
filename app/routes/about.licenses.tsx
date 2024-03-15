@@ -20,30 +20,44 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return json({ files });
 }
 
-export default function Legislation() {
+export default function About() {
   const { files } = useLoaderData<typeof loader>();
+
   return (
     <>
       <NavOuterComponent active="about" />
-      <main className="d-flex flex-column col col-lg-6 col-xl-7 col-xxl-7">
+      <main className="d-flex flex-column col col-lg-9 col-xl-10 col-xxl-10">
         <Breadcrumbs
           prev="/about"
           nprev="О предприятии"
-          tek="Законодательные основы"
+          tek="Лицензии"
         />
-        <h1 className="text-blue">Законодательные основы</h1>
+        <h1 className="text-blue">Лицензии</h1>
         <h2 className="smaller-heading"></h2>
-        {files.map((file) => {
-          if (file.type === "leg") {
+        {files.map((El) => {
+          if (El.type === "lic") {
             return (
               <>
-                <a
-                  href={"/files/" + file.filePath}
-                  className="fw-bold text-inherit smaller-text"
-                  download
-                  key={file.id+file.type+"_dwld"}
+                <h3
+                  className="smaller-heading text-center mt-4 mb-4"
+                  key={El.id + "_h3"}
                 >
-                  Скачать {file.fileName} ({file.filePath})
+                  {El.fileName}
+                </h3>
+                <a href="/assets/lic 1.jpg" key={El.id + "_a"}>
+                  <img
+                    src={"/assets/" + El.filePath}
+                    alt={El.filePath}
+                    className="license"
+                    key={El.id + "_img"}
+                  />
+                </a>
+                <a
+                  href={"/assets/" + El.filePath}
+                  className="text-center"
+                  key={El.id + "_a_zoom"}
+                >
+                  Для увеличения нажмите на изображение
                 </a>
               </>
             );

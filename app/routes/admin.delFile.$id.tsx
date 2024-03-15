@@ -5,9 +5,9 @@ import { db } from "~/db.server";
 
 
 export async function loader({ params }: LoaderFunctionArgs) {
-    const delete_id = await db.techImg.delete({
+    const delete_id = await db.file.delete({
         where: {
-            id: params.id
+            id: Number(params.id)
         }
     }).finally(() => {
         console.log("Deleted")
@@ -30,7 +30,7 @@ export default function AdminPanel() {
 
     return (
         <>
-            <h1>Изображение {params.id} удалено</h1>
+            <h1>Файл {params.id} удален</h1>
             <p>Переход на предыдущую страницу через: {countDown}</p>
         </>
     );

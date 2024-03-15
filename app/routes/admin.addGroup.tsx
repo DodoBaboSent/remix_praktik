@@ -3,30 +3,43 @@ import { useActionData } from "@remix-run/react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
 
+function validateName(name: string){
+    if (name.length <= 3){
+        return "Имя должно быть больше 3 символов"
+    }
+}
+
 export async function action({ request }: ActionFunctionArgs) {
     const form = await request.formData()
     const group_name = form.get("groupName")
-    if (typeof group_name !== "string") {
+    if (
+        typeof group_name !== "string"
+    ) {
         return badRequest({
-            fields: group_name,
-            fieldErrors: "Ошибка",
-            formError: null
-        })
+            fieldErrors: null,
+            fields: null,
+            formError: "Некоторые поля отсутствуют.",
+        });
     }
-    if (group_name.length == 0) {
+    const fields = { group_name };
+    const fieldErrors = {
+        group_name: validateName(group_name),
+    };
+    if (Object.values(fieldErrors).some(Boolean)) {
         return badRequest({
-            fields: group_name,
-            fieldErrors: "Название не может быть пустым",
-            formError: null
-        })
-    } else {
+            fieldErrors,
+            fields,
+            formError: null,
+        });
+    }
+    
         const new_group = await db.techGroup.create({
             data: {
                 name: group_name!.toString()
             }
         })
         throw redirect("/admin/admin-panel/tech")
-    }
+    
     return null
 }
 
@@ -40,12 +53,22 @@ export default function AdminPanel() {
                     <label htmlFor="groupName_id">Название</label>
                     <input type="text" name="groupName" id="groupName_id" defaultValue={action_data?.fields?.toString()} />
                 </div>
-                {action_data?.fieldErrors ? <>
+                {action_data?.fieldErrors?.group_name ? <>
                     <div className="p-3 rounded bg-danger">
-                        <p className="text-light fw-bold m-0">{action_data.fieldErrors}</p>
+                        <p className="text-light fw-bold m-0">{action_data.fieldErrors.group_name}</p>
                     </div>
                 </> : null}
                 <button type="submit" className="btn btn-primary mt-3">Добавить</button>
+                <div id="form-error-message">
+                    {action_data?.formError ? (
+                        <p
+                            className="border p-3 rounded border-danger mt-1"
+                            role="alert"
+                        >
+                            {action_data.formError}
+                        </p>
+                    ) : null}
+                </div>
             </form>
         </>
     );

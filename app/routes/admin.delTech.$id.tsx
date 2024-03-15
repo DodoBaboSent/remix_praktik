@@ -5,7 +5,7 @@ import { db } from "~/db.server";
 
 
 export async function loader({ params }: LoaderFunctionArgs) {
-    const delete_id = await db.techImg.delete({
+    const delete_id = await db.tech.delete({
         where: {
             id: params.id
         }
@@ -30,7 +30,7 @@ export default function AdminPanel() {
 
     return (
         <>
-            <h1>Группа {params.id} удалена</h1>
+            <h1>Техника {params.id} удалена</h1>
             <p>Переход на предыдущую страницу через: {countDown}</p>
         </>
     );
