@@ -71,7 +71,7 @@ export async function action({ request }: ActionFunctionArgs) {
       formError: "Некоторые поля отсутствуют.",
     });
   }
-  console.log(capt)
+  console.log(capt);
   const fields = { name, email, text, capt };
   let fieldErrors;
   if (email !== "" && typeof email == "string") {
@@ -88,7 +88,7 @@ export async function action({ request }: ActionFunctionArgs) {
       capt: await validateCap(capt, request),
     };
   }
-  console.log(fieldErrors)
+  console.log(fieldErrors);
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({
       fieldErrors,
@@ -190,7 +190,7 @@ export default function Component() {
                 ) : null}
               </div>
               <div
-                className="col-4 py-4"
+                className="col-5 py-4"
                 dangerouslySetInnerHTML={{ __html: cap.data }}
               ></div>
               <div className="col-7">
@@ -230,24 +230,23 @@ export default function Component() {
           </main>
         </div>
         {reviews.map((El) => {
-        return (
-          <>
-            <div className="smaller-text padded-otzyv mt-3 w-75">
-              <p className="fw-bold text-blue mb-2">
-                {El.name} {El.createdAt}
-              </p>
-              {El.email ? (
-                <>
-                  <p className="text-text-secondary mb-2">
-                    {El.email}
-                  </p>
-                </>
-              ) : null}
-              <p className="mb-2">{El.text}</p>
-            </div>
-          </>
-        );
-      })}
+          return (
+            <>
+              <div className="smaller-text padded-otzyv mt-3 w-75">
+                <div className="d-flex flex-row mb-2">
+                  <p className="fw-bold text-blue me-2 mb-0">{El.name}</p>
+                  <p className="text-secondary me-2 mb-0">{new Date(El.createdAt).toLocaleDateString(new Intl.Locale("ru"))}</p>
+                </div>
+                {El.email ? (
+                  <>
+                    <p className="text-text-secondary mb-2">{El.email}</p>
+                  </>
+                ) : null}
+                <p className="mb-2 p-3 bg-light rounded">{El.text}</p>
+              </div>
+            </>
+          );
+        })}
       </main>
     </>
   );
