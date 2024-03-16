@@ -25,7 +25,7 @@ export default function Legislation() {
   return (
     <>
       <NavOuterComponent active="about" />
-      <main className="d-flex flex-column col col-lg-6 col-xl-7 col-xxl-7">
+      <main className="d-flex flex-column col col-lg-6 col-xl-10 col-xxl-10">
         <Breadcrumbs
           prev="/about"
           nprev="О предприятии"

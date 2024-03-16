@@ -11,19 +11,23 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@haileybot/captcha-generator": "^1.7.0",
     "@prisma/client": "^5.10.2",
     "@remix-run/css-bundle": "^2.8.0",
     "@remix-run/node": "^2.8.0",
     "@remix-run/react": "^2.8.0",
     "@remix-run/serve": "^2.8.0",
     "bcryptjs": "^2.4.3",
+    "dompurify": "^3.0.9",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "svg-captcha": "^1.4.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.8.0",
     "@types/bcryptjs": "^2.4.6",
+    "@types/dompurify": "^3.0.5",
     "@types/node": "^20.11.25",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",

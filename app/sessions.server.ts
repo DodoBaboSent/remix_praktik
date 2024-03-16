@@ -1,12 +1,47 @@
 import bcrypt from "bcryptjs";
 
 import { db } from "./db.server";
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
+import { createCookieSessionStorage, json, redirect } from "@remix-run/node";
 
 type LoginForm = {
   password: string;
   username: string;
 };
+
+
+const sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret) {
+  throw new Error("SESSION_SECRET must be set");
+}
+
+type SessionData = {
+  CAP_text: string;
+};
+
+type SessionFlashData = {
+  error: string;
+};
+
+export const capt =
+  createCookieSessionStorage<SessionData, SessionFlashData>(
+    {
+      // a Cookie from `createCookie` or the CookieOptions to create one
+      cookie: {
+        name: "__session",
+
+        // all of these are optional
+        // Expires can also be set (although maxAge overrides it when used in combination).
+        // Note that this method is NOT recommended as `new Date` creates only one date on each server deployment, not a dynamic date in the future!
+        //
+        // expires: new Date(Date.now() + 60_000),
+        httpOnly: true,
+        path: "/",
+        sameSite: "lax",
+        secrets: [sessionSecret],
+        secure: process.env.NODE_ENV === "production",
+      },
+    }
+  );
 
 export async function login({
   password,
@@ -30,10 +65,6 @@ export async function login({
   return { id: user.id, username };
 }
 
-const sessionSecret = process.env.SESSION_SECRET;
-if (!sessionSecret) {
-  throw new Error("SESSION_SECRET must be set");
-}
 
 const storage = createCookieSessionStorage({
   cookie: {
@@ -49,6 +80,18 @@ const storage = createCookieSessionStorage({
     httpOnly: true,
   },
 });
+
+const captcha = createCookieSessionStorage({
+  cookie:{
+    name: "Captcha",
+    secure: process.env.NODE_ENV === "production",
+    secrets: [sessionSecret],
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60
+  }
+})
+
 
 export async function createUserSession(
   userId: string,

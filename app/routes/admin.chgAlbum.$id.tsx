@@ -15,28 +15,26 @@ import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const change_id = await db.file.findFirst({
+  const change_id = await db.photoAlbum.findFirst({
     where: {
-      id: Number(params.id),
+      id: params.id,
     },
   });
   return json({ change_id });
 }
 
-function validateFile(img_file: NodeOnDiskFile) {
-  if (img_file == null) {
-    return "Отсутствует файл изображения";
-  }
+function validateFile(album_file: NodeOnDiskFile) {
+  return null;
 }
 
-async function validateId(img_id: string, old_id: string) {
-  if (img_id.length == 0) {
+async function validateId(album_id: string, old_id: string) {
+  if (album_id.length == 0) {
     return "ID не может быть пустым";
   }
-  if (img_id !== old_id) {
-    const overlap = await db.file.findFirst({
+  if (album_id !== old_id) {
+    const overlap = await db.photoAlbum.findFirst({
       where: {
-        id: Number(img_id),
+        id: album_id,
       },
     });
     if (overlap !== null) {
@@ -45,27 +43,14 @@ async function validateId(img_id: string, old_id: string) {
   }
 }
 
-function validateType(type: string) {
-    switch (type) {
-      case "lic":
-        return null;
-      case "leg":
-        return null;
-        case "cat":
-          return null;
-      default:
-        return "Такого типа не существует.";
-    }
-  }
-
-async function validateName(img_name: string, old_name: string) {
-  if (img_name.length == 0) {
+async function validateName(album_name: string, old_name: string) {
+  if (album_name.length == 0) {
     return "Название не может быть пустым";
   }
-  if (img_name !== old_name) {
-    const overlap = await db.file.findFirst({
+  if (album_name !== old_name) {
+    const overlap = await db.photoAlbum.findFirst({
       where: {
-        fileName: img_name,
+        name: album_name,
       },
     });
     if (overlap !== null) {
@@ -79,26 +64,25 @@ export async function action({ request }: ActionFunctionArgs) {
     unstable_createFileUploadHandler({
       maxPartSize: 30_000_000,
       file: ({ filename }) => filename,
-      directory: "./public/files",
+      directory: "./public/assets",
       avoidFileConflicts: false,
+      filter({ contentType }) {
+        return contentType.includes("image");
+      },
     }),
     unstable_createMemoryUploadHandler()
   );
   const form = await unstable_parseMultipartFormData(request, uploadHandler);
   const old_id = form.get("oldValue");
   const old_name = form.get("oldName");
-  const file_id = form.get("fileId");
-  const typeFile = form.get("typeFile");
-  let file_file = form.get("filePath") as NodeOnDiskFile;
-  const file_name = form.get("fileName");
+  const album_id = form.get("albumId");
+  let album_file = form.get("albumPath") as NodeOnDiskFile;
+  const album_name = form.get("albumName");
   if (
-    typeof file_name !== "string" ||
-    file_file.size == null ||
-    file_file.size == 0 ||
-    typeof file_id !== "string" ||
+    typeof album_name !== "string" ||
+    typeof album_id !== "string" ||
     typeof old_id !== "string" ||
-    typeof old_name !== "string" ||
-    typeof typeFile !== "string"
+    typeof old_name !== "string"
   ) {
     return badRequest({
       fieldErrors: null,
@@ -106,12 +90,11 @@ export async function action({ request }: ActionFunctionArgs) {
       formError: "Некоторые поля отсутствуют.",
     });
   }
-  const fields = { file_name, file_file, file_id, typeFile };
+  const fields = { album_name, album_file, album_id };
   const fieldErrors = {
-    img_file: validateFile(file_file),
-    img_id: await validateId(file_id, old_id),
-    img_name: await validateName(file_name, old_name),
-    typeFile: validateType(typeFile)
+    album_file: validateFile(album_file),
+    album_id: await validateId(album_id, old_id),
+    album_name: await validateName(album_name, old_name),
   };
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({
@@ -120,16 +103,60 @@ export async function action({ request }: ActionFunctionArgs) {
       formError: null,
     });
   }
-  const updated_db = await db.file.update({
-    where: {
-      id: Number(old_id),
-    },
-    data: {
-      id: Number(file_id),
-      fileName: file_name!.toString(),
-      filePath: file_file.name,
-    },
-  });
+  if (
+    album_file.size !== 0 ||
+    album_file.name != "" ||
+    album_file.name.length !== 0 ||
+    album_file.name !== null ||
+    typeof album_file.name == "string" ||
+    album_file !== null
+  ) {
+    if (album_file.name == "") {
+      const old_img = await db.photoAlbum.findFirst({
+        where: {
+          id: old_id,
+        },
+      });
+      const updated_db = await db.photoAlbum.update({
+        where: {
+          id: old_id!.toString(),
+        },
+        data: {
+          id: album_id!.toString(),
+          name: album_name!.toString(),
+          thumb: old_img?.thumb,
+        },
+      });
+    } else {
+      const updated_db = await db.photoAlbum.update({
+        where: {
+          id: old_id!.toString(),
+        },
+        data: {
+          id: album_id!.toString(),
+          name: album_name!.toString(),
+          thumb: album_file.name,
+        },
+      });
+    }
+  } else {
+    console.log("Имя нет");
+    const old_img = await db.photoAlbum.findFirst({
+      where: {
+        id: old_id,
+      },
+    });
+    const updated_db = await db.photoAlbum.update({
+      where: {
+        id: old_id!.toString(),
+      },
+      data: {
+        id: album_id!.toString(),
+        name: album_name!.toString(),
+        thumb: old_img?.thumb,
+      },
+    });
+  }
   throw redirect("/admin/admin-panel/files");
   return null;
 }
@@ -157,62 +184,51 @@ export default function AdminPanel() {
           name="oldName"
           id="oldName_id"
           hidden
-          value={change_id?.fileName}
+          value={change_id?.name}
         />
         <div className="d-flex flex-column">
-          <label htmlFor="fileId_id">ID</label>
+          <label htmlFor="albumId_id">ID</label>
           <input
             type="text"
-            name="fileId"
-            id="fileId_id"
+            name="albumId"
+            id="albumId_id"
             defaultValue={change_id?.id}
           />
-          {action_data?.fieldErrors?.img_id ? (
+          {action_data?.fieldErrors?.album_id ? (
             <div className="p-3 rounded bg-danger mt-2">
               <p className="text-light fw-bold m-0">
-                {action_data.fieldErrors.img_id}
+                {action_data.fieldErrors.album_id}
               </p>
             </div>
           ) : null}
         </div>
         <div className="d-flex flex-column">
-          <label htmlFor="fileName_id">Name</label>
+          <label htmlFor="albumName_id">Name</label>
           <input
             type="text"
-            name="fileName"
-            id="fileName_id"
-            defaultValue={change_id?.fileName}
+            name="albumName"
+            id="albumName_id"
+            defaultValue={change_id?.name}
           />
-          {action_data?.fieldErrors?.img_name ? (
+          {action_data?.fieldErrors?.album_name ? (
             <div className="p-3 rounded bg-danger mt-2">
               <p className="text-light fw-bold m-0">
-                {action_data.fieldErrors.img_name}
+                {action_data.fieldErrors.album_name}
               </p>
             </div>
           ) : null}
         </div>
         <div className="d-flex flex-column">
-          <label htmlFor="filePath_id">Img</label>
-          <input type="file" name="filePath" id="filePath_id" />
-          {action_data?.fieldErrors?.img_file ? (
+          <label htmlFor="albumPath_id">Thumb</label>
+          <input type="file" name="albumPath" id="albumPath_id" />
+          {action_data?.fieldErrors?.album_file ? (
             <div className="p-3 rounded bg-danger mt-2">
               <p className="text-light fw-bold m-0">
-                {action_data.fieldErrors.img_file}
+                {action_data.fieldErrors.album_file}
               </p>
             </div>
           ) : null}
         </div>
-        <div className="d-flex flex-column">
-          <label htmlFor="typeFile_id">Тип</label>
-          <input type="text" name="typeFile" id="typeFile_id" />
-        </div>
-        {action_data?.fieldErrors?.typeFile ? (
-          <div className="p-3 rounded bg-danger mt-2">
-            <p className="text-light fw-bold m-0">
-              {action_data.fieldErrors.typeFile}
-            </p>
-          </div>
-        ) : null}
         <button type="submit" className="btn btn-primary mt-3">
           Сохранить изменения
         </button>
@@ -224,11 +240,6 @@ export default function AdminPanel() {
           ) : null}
         </div>
       </form>
-      <div className="d-flex flex-column bg-danger rounded">
-        <h3 className="fw-bold">lic = Лицензия</h3>
-        <h3 className="fw-bold">leg = Документ (законодательные основы)</h3>
-        <h3 className="fw-bold">cat = страница каталога</h3>
-      </div>
     </>
   );
 }

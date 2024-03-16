@@ -1192,6 +1192,15 @@ async function seed() {
             }
         })        
     }
+    for (let index = 1; index <=48; index++){
+        let cat = await db.file.create({
+            data:{
+                fileName: "catalog "+index,
+                filePath: "catalog "+index+".jpg",
+                type: "cat"
+            }
+        })
+    }
 }
 
 

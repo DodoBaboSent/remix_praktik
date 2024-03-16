@@ -13,7 +13,7 @@ export default function About() {
     return (
         <>
             <NavOuterComponent active="about" />
-            <main className="d-flex flex-column col col-lg-6 col-xl-7 col-xxl-7">
+            <main className="d-flex flex-column col col-lg-6 col-xl-7 col-xxl-10">
                 <Breadcrumbs prev="/about" nprev="О предприятии" tek="Отправить сообщение"/>
                 <h1 className="text-blue">Отправить сообщение</h1>
                 <h2 className="smaller-heading">Вы можете связаться с нами при помощи формы обратной связи. Или любым удобным способом указанным ниже.</h2>

@@ -40,6 +40,8 @@ function validateType(type: string) {
       return null;
     case "leg":
       return null;
+    case "cat":
+      return null;
     default:
       return "Такого типа не существует.";
   }
@@ -157,6 +159,7 @@ export default function AdminPanel() {
       <div className="d-flex flex-column bg-danger rounded">
         <h3 className="fw-bold">lic = Лицензия</h3>
         <h3 className="fw-bold">leg = Документ (законодательные основы)</h3>
+        <h3 className="fw-bold">cat = страница каталога</h3>
       </div>
     </>
   );

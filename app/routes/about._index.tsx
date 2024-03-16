@@ -13,7 +13,7 @@ export default function About() {
     return (
         <>
             <NavOuterComponent active="about" />
-            <main className="d-flex flex-column col col-lg-6 col-xl-7 col-xxl-7">
+            <main className="d-flex flex-column col col-lg-6 col-xl-7 col-xxl-10">
             <Breadcrumbs tek="О предприятии"/>
                 <h1 className="text-blue">О предприятии</h1>
                 <h2 className="smaller-heading">Акционерное общество<br /> «Дальневосточное  аэрогеодезическое  предприятие» (АО  «ДВ  АГП») </h2>

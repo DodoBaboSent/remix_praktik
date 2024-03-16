@@ -63,3 +63,11 @@ model Img {
   PhotoAlbum   PhotoAlbum? @relation(fields: [photoAlbumId], references: [id])
   photoAlbumId String?
 }
+
+model Review {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  email     String
+  text      String
+}
