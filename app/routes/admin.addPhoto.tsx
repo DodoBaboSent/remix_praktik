@@ -10,12 +10,7 @@ import { useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
-
-function validateFile(photo_file: NodeOnDiskFile) {
-    if (photo_file == null) {
-        return "Отсутствует файл изображения"
-    }
-}
+import { validateFile } from "~/validators.server";
 
 async function validateGroup(photo_group: string){
     const techGroup = await db.photoAlbum.findMany()

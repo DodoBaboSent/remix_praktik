@@ -9,14 +9,6 @@ import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
 import { createUserSession, login } from "~/sessions.server";
 
-export const meta: MetaFunction = () => {
-  return [
-      { title: "Администрирование | Дальневосточное АГП" },
-      { name: "description", content: "Администрирование" },
-      { name: "robots", content: "none" },
-  ];
-};
-
 function validateUsername(username: string) {
   if (username.length < 3) {
     return "Usernames must be at least 3 characters long";

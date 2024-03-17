@@ -8,12 +8,6 @@ import { Breadcrumbs } from "~/breadcrumbs";
 import { db } from "~/db.server";
 import { useLoaderData } from "@remix-run/react";
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: "О предприятии | Дальневосточное АГП" },
-    { name: "description", content: "О нас" },
-  ];
-};
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const imgs = await db.img.findMany({

@@ -17,34 +17,34 @@ export async function loader({ params }: LoaderFunctionArgs) {
   return json(change_id);
 }
 
-async function validateId(group_id: string, old_id: string) {
-  if (group_id.length == 0) {
-    return "ID не может быть пустым";
-  }
-  if (group_id !== old_id) {
-    const overlap = await db.techImg.findFirst({
-      where: {
-        id: group_id,
-      },
-    });
-    if (overlap !== null) {
-      return "Такой ID уже занят";
-    }
-  }
-}
-
-async function validateName(group_name: string, old_name: string) {
-  if (group_name.length == 0) {
+async function validateName(name: string, old_name: string) {
+  if (name.length == 0) {
     return "Название не может быть пустым";
   }
-  if (group_name !== old_name) {
-    const overlap = await db.techImg.findFirst({
+  if (name !== old_name) {
+    const overlap = await db.techGroup.findFirst({
       where: {
-        name: group_name,
+        name: name,
       },
     });
     if (overlap !== null) {
       return "Такое имя уже занято";
+    }
+  }
+}
+
+async function validateId(id: string, old_id: string) {
+  if (id.length == 0) {
+    return "ID не может быть пустым";
+  }
+  if (id !== old_id) {
+    const overlap = await db.techGroup.findFirst({
+      where: {
+        id: id,
+      },
+    });
+    if (overlap !== null) {
+      return "Такой ID уже занят";
     }
   }
 }

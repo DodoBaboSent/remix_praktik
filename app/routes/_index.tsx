@@ -18,14 +18,14 @@ export default function Index() {
         <p className="padded-annot smaller-text">Имеет структурные подразделения в городах Хабаровске, Южно-Сахалинске, Петропавловске-Камчатском, Свободном</p>
       </main>
       <aside className="d-flex flex-column col col-lg-3 col-xl-3 col-xxl-3">
-              <h1 className="mb-4 text-start text-blue mb-4">Новости</h1>
+              <h1 className="mb-4 text-start text-blue mb-4">TODO: Создать апи для новостей</h1>
               <div className="d-flex flex-column">
-                <p className="text-start fs-6 gray-text mb-0 mt-0">11.08.2022</p>
-                <p className="text-start"><a href="http://dvagp.ru/news/39436/" className="text-inherit fw-bold">Сообщение о проведении внеочередного Общего собрания акционеров акционерного общества «Дальневосточное аэрогеодезическое предприятие»</a></p>
+                <p className="text-start fs-6 gray-text mb-0 mt-0">TODO: Создать апи для новостей</p>
+                <p className="text-start"><a href="http://dvagp.ru/news/39436/" className="text-inherit fw-bold">TODO: Создать апи для новостей</a></p>
               </div>
               <div className="d-flex flex-row align-items-center mt-3">
                 <img src="/assets/icon-archive.gif" alt="archive" className="me-1" />
-                <p className="mb-0"><a href="news/index.html" className="text-inherit">Архив новостей</a></p>
+                <p className="mb-0"><a href="news/index.html" className="text-inherit">TODO: Создать апи для новостей</a></p>
               </div>
             </aside>
     </>

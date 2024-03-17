@@ -2,12 +2,8 @@ import { ActionFunctionArgs, MetaFunction, json, redirect } from "@remix-run/nod
 import { useActionData } from "@remix-run/react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
+import { validateName } from "~/validators.server";
 
-function validateName(name: string){
-    if (name.length <= 3){
-        return "Имя должно быть больше 3 символов"
-    }
-}
 
 export async function action({ request }: ActionFunctionArgs) {
     const form = await request.formData()
@@ -23,7 +19,7 @@ export async function action({ request }: ActionFunctionArgs) {
     }
     const fields = { group_name };
     const fieldErrors = {
-        group_name: validateName(group_name),
+        group_name: await validateName(group_name),
     };
     if (Object.values(fieldErrors).some(Boolean)) {
         return badRequest({

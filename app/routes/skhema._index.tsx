@@ -22,9 +22,7 @@ export default function Component() {
       <NavOuterComponent active="katalog" />
       <main className="d-flex flex-column col col-lg-9 col-xl-10 col-xxl-10">
         <Breadcrumbs
-          prev="/about"
-          nprev="О предприятии"
-          tek="История предприятия"
+          tek="Схема зон ответственности"
         />
                 <h1 className="text-blue">Схема зон ответственности</h1>
                 <h2 className="smaller-heading">Кликните, чтобы открыть в новой вкладке</h2>

@@ -14,8 +14,8 @@ import { capt } from "~/sessions.server";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Схема зон ответственности | Дальневосточное АГП" },
-    { name: "description", content: "Схема зон ответственности" },
+    { title: "Отзывы | Дальневосточное АГП" },
+    { name: "description", content: "Отзывы" },
   ];
 };
 
@@ -128,9 +128,7 @@ export default function Component() {
       <NavOuterComponent active="katalog" />
       <main className="d-flex flex-column col col-lg-9 col-xl-10 col-xxl-10">
         <Breadcrumbs
-          prev="/about"
-          nprev="О предприятии"
-          tek="История предприятия"
+          tek="Отправить сообщение"
         />
         <h1 className="text-blue">Отзывы</h1>
         <h2 className="smaller-heading">

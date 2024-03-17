@@ -9,26 +9,13 @@ import { useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
-
-function validateName(name: string) {
-  if (name.length <= 3) {
-    return "Имя должно быть больше 3 символов";
-  }
-}
+import { TechGroups } from "~/tech_groups";
+import { validateName, validateQuant } from "~/validators.server";
 
 async function validateGroup(group: string) {
   const techGroup = await db.techGroup.findMany();
   if (!techGroup.find((haystack) => haystack.id == group)) {
     return "Группа не найдена";
-  }
-}
-
-function validateQuant(quant: string) {
-  if (Number(quant) == 0) {
-    return "Количество не может быть равно нулю";
-  }
-  if (typeof Number(quant) !== "number") {
-    return "Количество должно быть числом";
   }
 }
 
@@ -82,7 +69,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function AdminPanel() {
   const action_data = useActionData<typeof action>();
   const { techGroup } = useLoaderData<typeof loader>();
-  const [showGroups, setShowGroups] = useState(false);
 
   return (
     <>
@@ -131,55 +117,7 @@ export default function AdminPanel() {
           ) : null}
         </div>
       </form>
-      {showGroups ? (
-        <>
-          <div
-            className="border rounded p-3 d-flex flex-row mt-2 hover-cursor"
-            onClick={() => setShowGroups(false)}
-          >
-            <p className="fw-bold m-0">▼ Нажмите, чтобы скрыть список групп</p>
-          </div>
-          <h1>Группы</h1>
-          <div className="d-flex flex-column p-3 border rounded">
-            {techGroup.map((El) => {
-              return (
-                <>
-                  <div
-                    className="d-flex flex-row border-bottom panel-row"
-                    key={El.id + "_div"}
-                  >
-                    <p
-                      className="border-end p-2 m-0"
-                      style={{ width: "400px" }}
-                      key={El.id + "_id"}
-                    >
-                      {El.id}
-                    </p>
-                    <p
-                      className="border-end p-2 m-0"
-                      style={{ width: "400px" }}
-                      key={El.id + "_name"}
-                    >
-                      {El.name}
-                    </p>
-                  </div>
-                </>
-              );
-            })}
-          </div>
-        </>
-      ) : (
-        <>
-          <div
-            className="border rounded p-3 d-flex flex-row mt-2 hover-cursor"
-            onClick={() => setShowGroups(true)}
-          >
-            <p className="fw-bold m-0">
-              ▼ Нажмите, чтобы раскрыть список групп
-            </p>
-          </div>
-        </>
-      )}
+      <TechGroups techGroup={techGroup}/>
     </>
   );
 }

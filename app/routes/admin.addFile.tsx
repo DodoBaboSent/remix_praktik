@@ -12,40 +12,10 @@ import type { LoaderFunctionArgs, NodeOnDiskFile } from "@remix-run/node";
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { db } from "~/db.server";
+import { FileLegend } from "~/file_legent";
 import { badRequest } from "~/request.server";
+import { validateFile, validateName, validateType } from "~/validators.server";
 
-function validateFile(file_file: NodeOnDiskFile) {
-  if (file_file == null) {
-    return "Отсутствует файл изображения";
-  }
-}
-
-async function validateName(file_name: string) {
-  if (file_name.length == 0) {
-    return "Название не может быть пустым";
-  }
-  const overlap = await db.file.findFirst({
-    where: {
-      fileName: file_name,
-    },
-  });
-  if (overlap !== null) {
-    return "Такое имя уже занято";
-  }
-}
-
-function validateType(type: string) {
-  switch (type) {
-    case "lic":
-      return null;
-    case "leg":
-      return null;
-    case "cat":
-      return null;
-    default:
-      return "Такого типа не существует.";
-  }
-}
 
 export async function action({ request }: ActionFunctionArgs) {
   const uploadHandler = unstable_composeUploadHandlers(
@@ -156,11 +126,7 @@ export default function AdminPanel() {
           ) : null}
         </div>
       </form>
-      <div className="d-flex flex-column bg-danger rounded">
-        <h3 className="fw-bold">lic = Лицензия</h3>
-        <h3 className="fw-bold">leg = Документ (законодательные основы)</h3>
-        <h3 className="fw-bold">cat = страница каталога</h3>
-      </div>
+      <FileLegend/>
     </>
   );
 }

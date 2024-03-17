@@ -4,8 +4,8 @@ import { Breadcrumbs } from "~/breadcrumbs";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "О предприятии | Дальневосточное АГП" },
-        { name: "description", content: "О нас" },
+        { title: "Структура предприятия | Дальневосточное АГП" },
+        { name: "description", content: "Структура предприятия" },
     ];
 };
 

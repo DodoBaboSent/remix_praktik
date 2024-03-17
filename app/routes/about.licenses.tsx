@@ -10,8 +10,8 @@ import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "О предприятии | Дальневосточное АГП" },
-    { name: "description", content: "О нас" },
+    { title: "Лицензии | Дальневосточное АГП" },
+    { name: "description", content: "Лицензии" },
   ];
 };
 

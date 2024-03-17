@@ -10,9 +10,10 @@ import {
   redirect,
 } from "@remix-run/node";
 import { useActionData, useLoaderData } from "@remix-run/react";
-import { useState } from "react";
 import { db } from "~/db.server";
+import { FileLegend } from "~/file_legent";
 import { badRequest } from "~/request.server";
+import { validateFile, validateType } from "~/validators.server";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const change_id = await db.file.findFirst({
@@ -23,53 +24,34 @@ export async function loader({ params }: LoaderFunctionArgs) {
   return json({ change_id });
 }
 
-function validateFile(img_file: NodeOnDiskFile) {
-  if (img_file == null) {
-    return "Отсутствует файл изображения";
-  }
-}
-
-async function validateId(img_id: string, old_id: string) {
-  if (img_id.length == 0) {
-    return "ID не может быть пустым";
-  }
-  if (img_id !== old_id) {
-    const overlap = await db.file.findFirst({
-      where: {
-        id: Number(img_id),
-      },
-    });
-    if (overlap !== null) {
-      return "Такой ID уже занят";
-    }
-  }
-}
-
-function validateType(type: string) {
-    switch (type) {
-      case "lic":
-        return null;
-      case "leg":
-        return null;
-        case "cat":
-          return null;
-      default:
-        return "Такого типа не существует.";
-    }
-  }
-
-async function validateName(img_name: string, old_name: string) {
-  if (img_name.length == 0) {
+async function validateName(name: string, old_name: string) {
+  if (name.length == 0) {
     return "Название не может быть пустым";
   }
-  if (img_name !== old_name) {
+  if (name !== old_name) {
     const overlap = await db.file.findFirst({
       where: {
-        fileName: img_name,
+        fileName: name,
       },
     });
     if (overlap !== null) {
       return "Такое имя уже занято";
+    }
+  }
+}
+
+async function validateId(id: string, old_id: string) {
+  if (id.length == 0) {
+    return "ID не может быть пустым";
+  }
+  if (id !== old_id) {
+    const overlap = await db.file.findFirst({
+      where: {
+        id: Number(id),
+      },
+    });
+    if (overlap !== null) {
+      return "Такой ID уже занят";
     }
   }
 }
@@ -224,11 +206,7 @@ export default function AdminPanel() {
           ) : null}
         </div>
       </form>
-      <div className="d-flex flex-column bg-danger rounded">
-        <h3 className="fw-bold">lic = Лицензия</h3>
-        <h3 className="fw-bold">leg = Документ (законодательные основы)</h3>
-        <h3 className="fw-bold">cat = страница каталога</h3>
-      </div>
+      <FileLegend/>
     </>
   );
 }

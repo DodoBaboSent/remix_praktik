@@ -98,6 +98,13 @@ export default function AdminPanel() {
                         >
                           {El.filePath}
                         </p>
+                        <p
+                          className="border-end p-2 m-0"
+                          style={{ width: "100px" }}
+                          key={El.id + "_type"}
+                        >
+                          {El.type}
+                        </p>
                         <a
                           href={"/admin/delFile/" + El.id}
                           className="text-light m-0 p-2 bg-danger"
@@ -213,7 +220,7 @@ export default function AdminPanel() {
                         <p
                           className="border-end p-2 m-0"
                           style={{ width: "400px" }}
-                          key={El.id + "_path"}
+                          key={El.id + "_album"}
                         >
                           {
                             albums.find((haystack) => {

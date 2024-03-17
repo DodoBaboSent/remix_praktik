@@ -6,8 +6,8 @@ import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "О предприятии | Дальневосточное АГП" },
-        { name: "description", content: "О нас" },
+        { title: "Техническое оснащение | Дальневосточное АГП" },
+        { name: "description", content: "Техническое оснащение" },
     ];
 };
 
