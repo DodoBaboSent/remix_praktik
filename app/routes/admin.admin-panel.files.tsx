@@ -37,6 +37,7 @@ export default function AdminPanel() {
               checked={tab == "files"}
               onChange={onOptionChange}
               hidden
+              defaultChecked
             />
             {"  "}Файлы
           </label>

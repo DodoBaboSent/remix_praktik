@@ -31,6 +31,12 @@ export function validateName(name: string) {
     return "Имя должно быть больше 3 символов";
   }
 }
+export function validateBody(name: string) {
+    if (name.length <= 3) {
+      return "Тело новости должно быть больше 3 символов";
+    }
+  }
+  
 
 export function validateQuant(quant: string) {
   if (Number(quant) == 0) {

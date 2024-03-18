@@ -19,7 +19,7 @@ export function AdmNav({ children, user }: AdmNavProps) {
                 {typeof user?.role !== "undefined" ? <>{user?.role == "admin" || "master" ? <>
                     <div className="p-3 d-flex flex-row bg-secondary rounded mb-2">
                         <Link to={"/admin/admin-panel"} className="text-light me-2">Панель администратора</Link>
-                        <Link to={"/admin/news-red"} className="text-light me-2">Редактор новостей</Link>
+                        <Link to={"/admin/admin-panel/news"} className="text-light me-2">Редактор новостей</Link>
                     </div>
                 </> : <></>}</> : <></>}
                 <div className="row">{children}</div>

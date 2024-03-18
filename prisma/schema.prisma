@@ -71,3 +71,19 @@ model Review {
   email     String
   text      String
 }
+
+model SLink{
+  id String @id @default(uuid())
+  link String @unique
+  text String
+  parentId String? 
+  child SLink[] @relation("Hierarchy")
+  parent SLink? @relation("Hierarchy", fields: [parentId], references: [id])
+}
+
+model News{
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  body String
+  name String
+}

@@ -1,0 +1,6 @@
+-- CreateTable
+CREATE TABLE "News" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "body" TEXT NOT NULL
+);

@@ -30,7 +30,7 @@ export default function AdminPanel() {
                 <fieldset>
                     <legend>Оснащение</legend>
                     <label className="border rounded p-2 bg-primary text-light admin-tab">
-                        <input type="radio" name="tab" id="tabType" value="group" checked={tab == "group"} onChange={onOptionChange} hidden />
+                        <input type="radio" name="tab" id="tabType" value="group" checked={tab == "group"} onChange={onOptionChange} hidden defaultChecked />
                         {"  "}Группы
                     </label>
                     <label className="border rounded p-2 bg-primary text-light admin-tab">

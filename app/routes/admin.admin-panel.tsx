@@ -15,6 +15,7 @@ export default function AdminPanel() {
     const tabs: { name: string, link: string }[] = [
         { name: "Оснащение", link: "tech/" },
         { name: "Файлы", link: "files/" },
+        { name: "Новости", link: "news/" },
     ]
 
     return (
