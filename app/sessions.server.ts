@@ -129,6 +129,10 @@ export async function getUser(request:Request) {
       id: userId,
     }
   })
+
+  if(!user){
+    throw await logout(request)
+  }
   return user;
 }
 
@@ -157,5 +161,17 @@ export async function requireUser(request:Request, redirectTo: string = new URL(
       id: userId,
     }
   })
+  if (!user) {
+    throw await logout(request)
+  }
   return user;
+}
+
+export async function logout(request: Request) {
+  const session = await getUserSession(request);
+  return redirect("/login", {
+    headers: {
+      "Set-Cookie": await storage.destroySession(session),
+    },
+  });
 }

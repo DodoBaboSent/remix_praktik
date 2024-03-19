@@ -13,9 +13,11 @@ import { useActionData, useLoaderData } from "@remix-run/react";
 import { db } from "~/db.server";
 import { FileLegend } from "~/file_legent";
 import { badRequest } from "~/request.server";
+import { requireUser } from "~/sessions.server";
 import { validateFile, validateType } from "~/validators.server";
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  const user = requireUser(request, "/admin/")
   const change_id = await db.file.findFirst({
     where: {
       id: Number(params.id),

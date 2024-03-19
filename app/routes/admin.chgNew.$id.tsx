@@ -7,9 +7,11 @@ import {
 import { useActionData, useLoaderData } from "@remix-run/react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
+import { requireUser } from "~/sessions.server";
 import { validateBody } from "~/validators.server";
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  const user = requireUser(request, "/admin/");
   const change_id = await db.news.findFirst({
     where: {
       id: params.id,

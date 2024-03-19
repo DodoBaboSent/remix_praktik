@@ -13,8 +13,10 @@ import { useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
+import { requireUser } from "~/sessions.server";
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  const user = requireUser(request, "/admin/");
   const change_id = await db.photoAlbum.findFirst({
     where: {
       id: params.id,

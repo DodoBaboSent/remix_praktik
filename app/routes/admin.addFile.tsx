@@ -14,8 +14,12 @@ import { useState } from "react";
 import { db } from "~/db.server";
 import { FileLegend } from "~/file_legent";
 import { badRequest } from "~/request.server";
+import { requireUser } from "~/sessions.server";
 import { validateFile, validateName, validateType } from "~/validators.server";
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  const user = requireUser(request, "/admin/");
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const uploadHandler = unstable_composeUploadHandlers(
@@ -126,7 +130,7 @@ export default function AdminPanel() {
           ) : null}
         </div>
       </form>
-      <FileLegend/>
+      <FileLegend />
     </>
   );
 }

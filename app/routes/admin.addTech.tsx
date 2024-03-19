@@ -12,6 +12,9 @@ import { badRequest } from "~/request.server";
 import { TechGroups } from "~/tech_groups";
 import { validateName, validateQuant } from "~/validators.server";
 
+import { requireUser } from "~/sessions.server";
+
+
 async function validateGroup(group: string) {
   const techGroup = await db.techGroup.findMany();
   if (!techGroup.find((haystack) => haystack.id == group)) {
@@ -62,6 +65,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
+  const user = requireUser(request, "/admin/");
   const techGroup = await db.techGroup.findMany();
   return json({ techGroup });
 }

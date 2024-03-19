@@ -10,6 +10,7 @@ import { useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
+import { requireUser } from "~/sessions.server";
 import { TechGroups } from "~/tech_groups";
 
 function validateFile(img_file: NodeOnDiskFile) {
@@ -93,6 +94,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
+    const user = requireUser(request, "/admin/");
     const techGroup = await db.techGroup.findMany()
     return json(techGroup)
 }

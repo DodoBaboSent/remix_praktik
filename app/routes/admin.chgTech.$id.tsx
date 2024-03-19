@@ -8,9 +8,11 @@ import { useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
+import { requireUser } from "~/sessions.server";
 import { TechGroups } from "~/tech_groups";
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  const user = requireUser(request, "/admin/");
   const change_id = await db.tech.findFirst({
     where: {
       id: params.id,
@@ -123,7 +125,6 @@ export default function AdminPanel() {
   const { change_id, techGroup } = useLoaderData<typeof loader>();
   const action_data = useActionData<typeof action>();
 
-
   return (
     <>
       <form className="d-flex flex-column p-3 border rounded" method="post">
@@ -216,7 +217,7 @@ export default function AdminPanel() {
           ) : null}
         </div>
       </form>
-      <TechGroups techGroup={techGroup}/>
+      <TechGroups techGroup={techGroup} />
     </>
   );
 }

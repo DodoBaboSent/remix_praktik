@@ -11,6 +11,8 @@ import { useState } from "react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
 import { validateFile } from "~/validators.server";
+import { requireUser } from "~/sessions.server";
+
 
 async function validateGroup(photo_group: string){
     const techGroup = await db.photoAlbum.findMany()
@@ -87,6 +89,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
+    const user = requireUser(request, "/admin/");
     const techGroup = await db.photoAlbum.findMany()
     return json(techGroup)
 }

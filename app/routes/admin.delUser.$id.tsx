@@ -7,7 +7,7 @@ import { requireUser } from "~/sessions.server";
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     const user = requireUser(request, "/admin/")
-    const delete_id = await db.img.delete({
+    const delete_id = await db.user.delete({
         where: {
             id: params.id
         }
@@ -26,13 +26,13 @@ export default function AdminPanel() {
     useEffect(() => {
         countDown > 0 && setTimeout(() => setCountDown(countDown - 1), 1000)
         if (countDown <= 0) {
-            navigate("/admin/admin-panel/files")
+            navigate("/admin/admin-panel/tech")
         }
     }, [countDown])
 
     return (
         <>
-            <h1>Фото {params.id} удалено</h1>
+            <h1>Пользователь {params.id} разрегистрирован</h1>
             <p>Переход на предыдущую страницу через: {countDown}</p>
         </>
     );

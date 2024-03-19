@@ -80,7 +80,7 @@ export default function App() {
               <img src="/assets/logoDVAGP.gif" alt="logo" className="img-logo" />
             </a>
           </div>
-          <div className="d-flex flex-column justify-content-center">
+          <div className="d-flex flex-column justify-content-center" style={{flexBasis: (windowSize.windowWidth < 1366) ? "55%" : undefined}}>
             <div className="d-flex flex-row mb-3">
               <div className="bar"></div>
               <p className="padded text-white m-0 fw-bold">Акционерное общество</p>

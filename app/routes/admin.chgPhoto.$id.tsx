@@ -13,8 +13,10 @@ import { useActionData, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
+import { requireUser } from "~/sessions.server";
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  const user = requireUser(request, "/admin/");
   const change_id = await db.img.findFirst({
     where: {
       id: params.id,
@@ -116,16 +118,16 @@ export async function action({ request }: ActionFunctionArgs) {
   }
   if (photo_file.size !== 0 || photo_file !== null) {
     if (photo_file.name == "") {
-        const updated_db = await db.img.update({
-            where: {
-              id: old_id!.toString(),
-            },
-            data: {
-              id: photo_id!.toString(),
-              name: photo_name!.toString(),
-              photoAlbumId: group_id!.toString(),
-            },
-          });
+      const updated_db = await db.img.update({
+        where: {
+          id: old_id!.toString(),
+        },
+        data: {
+          id: photo_id!.toString(),
+          name: photo_name!.toString(),
+          photoAlbumId: group_id!.toString(),
+        },
+      });
     } else {
       const updated_db = await db.img.update({
         where: {

@@ -20,6 +20,23 @@ export function validateType(type: string) {
   }
 }
 
+export function validatePass(text: string) {
+  if (text.length < 6) {
+    return "Пароль не может быть менее 6 символов";
+  }
+}
+
+export function validateRole(text: string) {
+  switch (text) {
+    case "master":
+      return "Мастер может быть только один";
+    case "moderator":
+      return null;
+    default:
+      return "Такой роли не существует";
+  }
+}
+
 export function validateFile(file_file: NodeOnDiskFile) {
   if (file_file == null) {
     return "Отсутствует файл изображения";
@@ -32,11 +49,10 @@ export function validateName(name: string) {
   }
 }
 export function validateBody(name: string) {
-    if (name.length <= 3) {
-      return "Тело новости должно быть больше 3 символов";
-    }
+  if (name.length <= 3) {
+    return "Тело новости должно быть больше 3 символов";
   }
-  
+}
 
 export function validateQuant(quant: string) {
   if (Number(quant) == 0) {

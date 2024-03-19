@@ -8,8 +8,14 @@ import {
 import { useActionData } from "@remix-run/react";
 import { db } from "~/db.server";
 import { badRequest } from "~/request.server";
+import {
+  validateBody,
+  validateName,
+  validatePass,
+  validateRole,
+} from "~/validators.server";
+import bcrypt from "bcryptjs";
 import { requireUser } from "~/sessions.server";
-import { validateBody, validateName } from "~/validators.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = requireUser(request, "/admin/");
@@ -17,19 +23,25 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export async function action({ request }: ActionFunctionArgs) {
   const form = await request.formData();
-  const new_body = form.get("newBody");
-  const new_name = form.get("newName");
-  if (typeof new_body !== "string" || typeof new_name !== "string") {
+  const user_body = form.get("userBody");
+  const user_name = form.get("userName");
+  const user_pass = form.get("userPass");
+  if (
+    typeof user_body !== "string" ||
+    typeof user_name !== "string" ||
+    typeof user_pass !== "string"
+  ) {
     return badRequest({
       fieldErrors: null,
       fields: null,
       formError: "Некоторые поля отсутствуют.",
     });
   }
-  const fields = { new_body, new_name };
+  const fields = { user_body, user_name, user_pass };
   const fieldErrors = {
-    new_body: validateBody(new_body),
-    new_name: validateName(new_name),
+    user_body: validateRole(user_body),
+    user_name: validateName(user_name),
+    user_pass: validatePass(user_pass),
   };
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({
@@ -39,13 +51,14 @@ export async function action({ request }: ActionFunctionArgs) {
     });
   }
 
-  const new_new = await db.news.create({
+  const user_user = await db.user.create({
     data: {
-      body: new_body!.toString(),
-      name: new_name,
+      role: user_body!.toString(),
+      username: user_name,
+      passwordHash: (await bcrypt.hash(user_pass, 10)).toString(),
     },
   });
-  throw redirect("/admin/admin-panel/news");
+  throw redirect("/admin/admin-panel/users");
 
   return null;
 }
@@ -57,36 +70,40 @@ export default function AdminPanel() {
     <>
       <form className="p-3 border rounded d-flex flex-column" method="post">
         <div className="d-flex flex-column">
-          <label htmlFor="newName_id">Название</label>
-          <input
-            type="text"
-            name="newName"
-            id="newName_id"
-            defaultValue="Lorem ipsum..."
-          />
+          <label htmlFor="userName_id">Имя пользователя</label>
+          <input type="text" name="userName" id="userName_id" />
         </div>
-        {action_data?.fieldErrors?.new_name ? (
+        {action_data?.fieldErrors?.user_name ? (
           <>
             <div className="p-3 rounded bg-danger">
               <p className="text-light fw-bold m-0">
-                {action_data.fieldErrors.new_name}
+                {action_data.fieldErrors.user_name}
               </p>
             </div>
           </>
         ) : null}
         <div className="d-flex flex-column">
-          <label htmlFor="newBody_id">Тело</label>
-          <textarea
-            name="newBody"
-            id="newBody_id"
-            defaultValue="Lorem ipsum..."
-          />
+          <label htmlFor="userBody_id">Роль</label>
+          <input type="text" name="userBody" id="userBody_id" />
         </div>
-        {action_data?.fieldErrors?.new_body ? (
+        {action_data?.fieldErrors?.user_body ? (
           <>
             <div className="p-3 rounded bg-danger">
               <p className="text-light fw-bold m-0">
-                {action_data.fieldErrors.new_body}
+                {action_data.fieldErrors.user_body}
+              </p>
+            </div>
+          </>
+        ) : null}
+        <div className="d-flex flex-column">
+          <label htmlFor="userPass_id">Пароль</label>
+          <input type="password" name="userPass" id="userPass_id" />
+        </div>
+        {action_data?.fieldErrors?.user_pass ? (
+          <>
+            <div className="p-3 rounded bg-danger">
+              <p className="text-light fw-bold m-0">
+                {action_data.fieldErrors.user_pass}
               </p>
             </div>
           </>

@@ -16,6 +16,7 @@ export default function AdminPanel() {
         { name: "Оснащение", link: "tech/" },
         { name: "Файлы", link: "files/" },
         { name: "Новости", link: "news/" },
+        { name: "Пользователи", link: "users/" },
     ]
 
     return (
@@ -23,7 +24,7 @@ export default function AdminPanel() {
             <h1>Панель администратора</h1>
             <h3>Уровень пользователя: {user?.role}</h3>
             <div className="d-flex flex-column border rounded p-2">
-                <AdTab href={tabs} />
+                <AdTab href={tabs} role={user?.role}/>
                 <Outlet></Outlet>
             </div>
         </>
