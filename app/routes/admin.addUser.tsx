@@ -27,9 +27,11 @@ export async function action({ request }: ActionFunctionArgs) {
   const user_body = form.get("userBody");
   const user_name = form.get("userName");
   const user_pass = form.get("userPass");
+  const user_mail = form.get("userMail");
   if (
     typeof user_body !== "string" ||
     typeof user_name !== "string" ||
+    typeof user_mail !== "string" ||
     typeof user_pass !== "string"
   ) {
     return badRequest({
@@ -38,11 +40,12 @@ export async function action({ request }: ActionFunctionArgs) {
       formError: "Некоторые поля отсутствуют.",
     });
   }
-  const fields = { user_body, user_name, user_pass };
+  const fields = { user_body, user_name, user_pass, user_mail };
   const fieldErrors = {
     user_body: validateRole(user_body),
     user_name: validateName(user_name),
     user_pass: validatePass(user_pass),
+    // TODO: валидация почты user_mail: validateMail(user_mail),
   };
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({

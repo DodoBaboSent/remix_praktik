@@ -43,6 +43,10 @@ export function validateFile(file_file: NodeOnDiskFile) {
   }
 }
 
+export async function validateMail(mail: string){
+  // const mail_u = await db.user
+}
+
 export function validateName(name: string) {
   if (name.length <= 3) {
     return "Имя должно быть больше 3 символов";
