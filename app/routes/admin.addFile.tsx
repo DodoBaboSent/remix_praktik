@@ -18,7 +18,8 @@ import { requireUser } from "~/sessions.server";
 import { validateFile, validateName, validateType } from "~/validators.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const user = requireUser(request, "/admin/");
+  const user = await requireUser(request, "/admin/");
+  return null
 }
 
 export async function action({ request }: ActionFunctionArgs) {

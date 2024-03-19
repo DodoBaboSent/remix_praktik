@@ -12,7 +12,7 @@ import { requireUser } from "~/sessions.server";
 import { TechGroups } from "~/tech_groups";
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const user = requireUser(request, "/admin/");
+  const user = await requireUser(request, "/admin/");
   const change_id = await db.tech.findFirst({
     where: {
       id: params.id,

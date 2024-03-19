@@ -12,7 +12,7 @@ import { validatePass, validateRole } from "~/validators.server";
 import { requireUser } from "~/sessions.server";
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const user = requireUser(request, "/admin/");
+  const user = await requireUser(request, "/admin/");
   const change_id = await db.user.findFirst({
     where: {
       id: params.id,

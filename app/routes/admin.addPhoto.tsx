@@ -89,7 +89,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    const user = requireUser(request, "/admin/");
+    const user = await requireUser(request, "/admin/");
     const techGroup = await db.photoAlbum.findMany()
     return json(techGroup)
 }

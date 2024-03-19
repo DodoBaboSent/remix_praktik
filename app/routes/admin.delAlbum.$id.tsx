@@ -10,7 +10,7 @@ import { db } from "~/db.server";
 import { requireUser } from "~/sessions.server";
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const user = requireUser(request, "/admin/");
+  const user = await requireUser(request, "/admin/");
   const delete_id = await db.photoAlbum
     .delete({
       where: {
