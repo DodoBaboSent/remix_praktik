@@ -9,6 +9,7 @@ async function seed() {
       // this is a hashed version of "twixrox"
       passwordHash: await bcrypt.hash("admin", 10),
       role: "master",
+      active: true,
     },
     where: {
       username: "admin",
@@ -18,6 +19,7 @@ async function seed() {
       // this is a hashed version of "twixrox"
       passwordHash: await bcrypt.hash("admin", 10),
       role: "master",
+      active: true,
     },
   });
 

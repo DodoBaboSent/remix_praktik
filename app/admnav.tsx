@@ -23,15 +23,13 @@ export function AdmNav({ children, user }: AdmNavProps) {
                 <div className="p-3 d-flex flex-row bg-secondary rounded mb-2">
                   <Link
                     to={"/admin/admin-panel"}
-                    className="text-light"
-                    style={{ flexBasis: "20%" }}
+                    className="text-light me-2"
                   >
                     Панель администратора
                   </Link>
                   <Link
                     to={"/admin/admin-panel/news"}
-                    className="text-light"
-                    style={{ flexBasis: "20%" }}
+                    className="text-light me-2"
                   >
                     Редактор новостей
                   </Link>
@@ -39,7 +37,7 @@ export function AdmNav({ children, user }: AdmNavProps) {
                     action="/logout/"
                     method="post"
                     className="text-light"
-                    style={{ flexBasis: "60%", textAlign: "right" }}
+                    style={{ flexBasis: "80%", textAlign: "right" }}
                   >
                     <button type="submit" style={{all: "unset", cursor: "pointer"}}> Выйти из аккаунта</button>
                   </form>

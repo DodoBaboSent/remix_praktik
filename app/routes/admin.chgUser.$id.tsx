@@ -37,6 +37,26 @@ async function validateName(name: string, old_name: string) {
   }
 }
 
+async function validateEmail(text:string) {
+  if (!text.includes("@")){
+    return "Невалидная почта"
+  }
+  if (text.length <=3){
+    return "Невалидная почта"
+  }
+  if (text === "master"){
+    return null
+  }
+  const data = await db.user.findUnique({
+    where: {
+      email: text,
+    }
+  })
+  if (data){
+    return "Почта уже занята"
+  }
+}
+
 async function validateId(id: string, old_id: string) {
   if (id.length == 0) {
     return "ID не может быть пустым";
@@ -61,11 +81,13 @@ export async function action({ request }: ActionFunctionArgs) {
   const user_name = form.get("userName");
   const user_role = form.get("userRole");
   const user_pass = form.get("userPass");
+  const user_mail = form.get("userMail");
   if (
     typeof old_id !== "string" ||
     typeof user_id !== "string" ||
     typeof user_name !== "string" ||
     typeof old_name !== "string" ||
+    typeof user_mail !== "string" ||
     typeof user_role !== "string" ||
     typeof user_pass !== "string"
   ) {
@@ -75,12 +97,13 @@ export async function action({ request }: ActionFunctionArgs) {
       formError: "Некоторые поля отсутствуют.",
     });
   }
-  const fields = { user_name, user_id, user_role, user_pass };
+  const fields = { user_name, user_id, user_role, user_pass, user_mail };
   const fieldErrors = {
     user_id: await validateId(user_id, old_id),
     user_name: await validateName(user_name, old_name),
     user_role: validateRole(user_role),
     user_pass: validatePass(user_pass),
+    user_mail: await validateEmail(user_mail),
   };
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({
@@ -89,18 +112,35 @@ export async function action({ request }: ActionFunctionArgs) {
       formError: null,
     });
   }
-  const updated_db = await db.user.update({
-    where: {
-      id: old_id!.toString(),
-    },
-    data: {
-      id: user_id!.toString(),
-      username: user_name?.toString(),
-      role: user_role,
-      passwordHash: (await bcrypt.hash(user_pass, 10)).toString(),
-    },
-  });
-  throw redirect("/admin/admin-panel/tech");
+  if (user_mail !== "master"){
+    const updated_db = await db.user.update({
+      where: {
+        id: old_id!.toString(),
+      },
+      data: {
+        id: user_id!.toString(),
+        username: user_name?.toString(),
+        role: user_role,
+        email: user_mail,
+        active: false,
+        passwordHash: (await bcrypt.hash(user_pass, 10)).toString(),
+      },
+    });
+  } else {
+    const updated_db = await db.user.update({
+      where: {
+        id: old_id
+      },
+      data:{
+        id: user_id,
+        username: user_name,
+        role: user_role,
+        passwordHash: (await bcrypt.hash(user_pass, 10)).toString()
+      }
+    })
+  }
+
+  throw redirect("/admin/admin-panel/users");
   return null;
 }
 
@@ -173,6 +213,26 @@ export default function AdminPanel() {
             </div>
           ) : null}
         </div>
+        {change_id?.role !== "master" ? (
+          <>
+            <div className="d-flex flex-column">
+              <label htmlFor="userMail_id">Mail</label>
+              <input
+                type="text"
+                name="userMail"
+                id="userMail_id"
+                defaultValue={change_id?.email ? change_id.email : "master"}
+              />
+              {action_data?.fieldErrors?.user_role ? (
+                <div className="p-3 rounded bg-danger mt-2">
+                  <p className="text-light fw-bold m-0">
+                    {action_data.fieldErrors.user_role}
+                  </p>
+                </div>
+              ) : null}
+            </div>
+          </>
+        ) : null}
         <div className="d-flex flex-column">
           <label htmlFor="userRole_id">Pass</label>
           <input

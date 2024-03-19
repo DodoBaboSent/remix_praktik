@@ -24,6 +24,7 @@ model User {
   username     String   @unique
   email        String?  @unique
   passwordHash String
+  active       Boolean
   role         String   @default("moderator")
 }
 

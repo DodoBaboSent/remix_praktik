@@ -43,8 +43,13 @@ export default function AdminPanel() {
         <div className="d-flex flex-column p-2">
           {tab == "news" ? (
             <>
-              <h1>Файлы</h1>
+              <h1>Новости</h1>
               <div className="d-flex flex-column p-3 border rounded">
+                <div className="d-flex flex-row border-bottom">
+                  <p className="border-end p-2 m-0" style={{width: 400}}>ID</p>
+                  <p className="border-end p-2 m-0" style={{width: 400}}>BODY</p>
+                  <p className="border-end p-2 m-0" style={{width: 400}}>CREATED AT</p>
+                </div>
                 {news.map((El) => {
                   return (
                     <>

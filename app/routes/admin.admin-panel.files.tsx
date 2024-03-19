@@ -71,6 +71,20 @@ export default function AdminPanel() {
             <>
               <h1>Файлы</h1>
               <div className="d-flex flex-column p-3 border rounded">
+                <div className="d-flex flex-row border-bottom">
+                  <p className="border-end p-2 m-0" style={{ width: 400 }}>
+                    ID
+                  </p>
+                  <p className="border-end p-2 m-0" style={{ width: 400 }}>
+                    FILE NAME
+                  </p>
+                  <p className="border-end p-2 m-0" style={{ width: 400 }}>
+                    FILE PATH
+                  </p>
+                  <p className="border-end p-2 m-0" style={{ width: 100 }}>
+                    TYPE
+                  </p>
+                </div>
                 {files.map((El) => {
                   return (
                     <>
@@ -134,6 +148,17 @@ export default function AdminPanel() {
             <>
               <h1>Альбомы</h1>
               <div className="d-flex flex-column p-3 border rounded">
+                <div className="d-flex flex-row border-bottom">
+                  <p className="border-end p-2 m-0" style={{ width: 400 }}>
+                    ID
+                  </p>
+                  <p className="border-end p-2 m-0" style={{ width: 400 }}>
+                    ALBUM NAME
+                  </p>
+                  <p className="border-end p-2 m-0" style={{ width: 400 }}>
+                    THUMBNAIL
+                  </p>
+                </div>
                 {albums.map((El) => {
                   return (
                     <>
@@ -190,6 +215,20 @@ export default function AdminPanel() {
             <>
               <h1>Фото</h1>
               <div className="d-flex flex-column p-3 border rounded">
+              <div className="d-flex flex-row border-bottom">
+                  <p className="border-end p-2 m-0" style={{ width: 400 }}>
+                    ID
+                  </p>
+                  <p className="border-end p-2 m-0" style={{ width: 400 }}>
+                    PHOTO NAME
+                  </p>
+                  <p className="border-end p-2 m-0" style={{ width: 400 }}>
+                    FILE PATH
+                  </p>
+                  <p className="border-end p-2 m-0" style={{ width: 400 }}>
+                    FILE ALBUM
+                  </p>
+                </div>
                 {photos.map((El) => {
                   return (
                     <>

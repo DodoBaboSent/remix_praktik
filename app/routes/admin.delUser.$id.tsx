@@ -26,7 +26,7 @@ export default function AdminPanel() {
     useEffect(() => {
         countDown > 0 && setTimeout(() => setCountDown(countDown - 1), 1000)
         if (countDown <= 0) {
-            navigate("/admin/admin-panel/tech")
+            navigate("/admin/admin-panel/users")
         }
     }, [countDown])
 

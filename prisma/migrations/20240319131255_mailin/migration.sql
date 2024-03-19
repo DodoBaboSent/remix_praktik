@@ -12,7 +12,9 @@ CREATE TABLE "User" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "username" TEXT NOT NULL,
+    "email" TEXT,
     "passwordHash" TEXT NOT NULL,
+    "active" BOOLEAN NOT NULL,
     "role" TEXT NOT NULL DEFAULT 'moderator'
 );
 
@@ -74,8 +76,19 @@ CREATE TABLE "SLink" (
     CONSTRAINT "SLink_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "SLink" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
+-- CreateTable
+CREATE TABLE "News" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "body" TEXT NOT NULL,
+    "name" TEXT NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "TechGroup_name_key" ON "TechGroup"("name");

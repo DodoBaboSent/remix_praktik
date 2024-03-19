@@ -16,10 +16,33 @@ import {
 } from "~/validators.server";
 import bcrypt from "bcryptjs";
 import { requireUser } from "~/sessions.server";
+import { render } from "@react-email/render";
+import { Email } from "~/email/regMail";
+import { sendTransEmail } from "~/email.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await requireUser(request, "/admin/");
-  return null
+  return null;
+}
+
+async function validateEmail(text: string) {
+  if (!text.includes("@")) {
+    return "Невалидная почта";
+  }
+  if (text.length <= 3) {
+    return "Невалидная почта";
+  }
+  if (text === "master") {
+    return null;
+  }
+  const data = await db.user.findUnique({
+    where: {
+      email: text,
+    },
+  });
+  if (data) {
+    return "Почта уже занята";
+  }
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -45,7 +68,7 @@ export async function action({ request }: ActionFunctionArgs) {
     user_body: validateRole(user_body),
     user_name: validateName(user_name),
     user_pass: validatePass(user_pass),
-    // TODO: валидация почты user_mail: validateMail(user_mail),
+    user_mail: await validateEmail(user_mail),
   };
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({
@@ -58,10 +81,14 @@ export async function action({ request }: ActionFunctionArgs) {
   const user_user = await db.user.create({
     data: {
       role: user_body!.toString(),
+      email: user_mail,
       username: user_name,
+      active: false,
       passwordHash: (await bcrypt.hash(user_pass, 10)).toString(),
     },
   });
+  const emailHtml = render(<Email id={`${user_user.id}`} />);
+  const mail = sendTransEmail({ to: user_mail, subject: "Активация аккаунта", html: emailHtml });
   throw redirect("/admin/admin-panel/users");
 
   return null;
@@ -95,6 +122,19 @@ export default function AdminPanel() {
             <div className="p-3 rounded bg-danger">
               <p className="text-light fw-bold m-0">
                 {action_data.fieldErrors.user_body}
+              </p>
+            </div>
+          </>
+        ) : null}
+        <div className="d-flex flex-column">
+          <label htmlFor="userMail_id">Почта</label>
+          <input type="text" name="userMail" id="userMail_id" />
+        </div>
+        {action_data?.fieldErrors?.user_mail ? (
+          <>
+            <div className="p-3 rounded bg-danger">
+              <p className="text-light fw-bold m-0">
+                {action_data.fieldErrors.user_mail}
               </p>
             </div>
           </>
