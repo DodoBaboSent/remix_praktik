@@ -122,7 +122,7 @@ export default function Search() {
                 return (
                   <>
                     <li key={`${value.id}_${i}`}>
-                      <p>{value.link}</p>
+                      <a href={`/${value.link}/`}>{value.link}</a>
                       <p>{value.text}</p>
                     </li>
                   </>
@@ -136,7 +136,7 @@ export default function Search() {
                   <>
                     <li key={`${value.id}_${i}`}>
                       <p>{value.fileName}</p>
-                      <p>{value.filePath}</p>
+                      <a href={`/files/${value.filePath}/`}>Скачать ({value.filePath})</a>
                       <p>{value.type}</p>
                     </li>
                   </>
@@ -151,6 +151,7 @@ export default function Search() {
                     <li key={`${value.id}_${i}`}>
                       <p>{value.body}</p>
                       <p>{value.name}</p>
+                      <a href={`/article/${value.id}`}>Перейти...</a>
                     </li>
                   </>
                 );
