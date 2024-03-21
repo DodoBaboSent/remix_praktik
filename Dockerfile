@@ -1,6 +1,6 @@
 FROM node:current
 
-WORKDIR /www/remix-praktik
+WORKDIR /remix-praktik
 
 COPY . .
 
