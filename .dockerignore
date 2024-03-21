@@ -1,11 +1,10 @@
 .env
-.dockerignore
 .env.example
 LICENSE
 README.md
-public\build
-prisma\migrations
-prisma\seed.ts
+public/build
+prisma/migrations
+prisma/seed.ts
 build
 node_modules
 .cache
