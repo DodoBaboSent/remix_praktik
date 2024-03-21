@@ -1,4 +1,4 @@
-FROM node:current-alpine3.19
+FROM node:current
 
 WORKDIR /www/remix-praktik
 
