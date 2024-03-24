@@ -10,6 +10,9 @@ import { badRequest } from "~/request.server";
 import bcrypt from "bcryptjs";
 import { validatePass, validateRole } from "~/validators.server";
 import { requireUser } from "~/sessions.server";
+import { render } from "@react-email/render";
+import { sendTransEmail } from "~/email.server";
+import { Email } from "~/email/regMail";
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const user = await requireUser(request, "/admin/");
@@ -126,6 +129,8 @@ export async function action({ request }: ActionFunctionArgs) {
         passwordHash: (await bcrypt.hash(user_pass, 10)).toString(),
       },
     });
+    const emailHtml = render(<Email id={`${updated_db.id}`} />);
+    const mail = sendTransEmail({ to: user_mail, subject: "Активация аккаунта", html: emailHtml });
   } else {
     const updated_db = await db.user.update({
       where: {
