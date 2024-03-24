@@ -28,7 +28,6 @@ export default function Component() {
       <main className="d-flex flex-column col col-lg-9 col-xl-10 col-xxl-10">
         <Breadcrumbs tek="Карта сайта" />
         <h1 className="text-blue">Карта сайта</h1>
-        <h2 className="smaller-heading">TODO: Создать индекс ссылок в бд</h2>
         <ul>
           {links.map((El) => {
             if (El.parentId == null) {
