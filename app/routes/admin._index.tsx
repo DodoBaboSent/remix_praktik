@@ -1,11 +1,8 @@
 
 import type {
   ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
 } from "@remix-run/node";
-import { Link, useActionData, useSearchParams } from "@remix-run/react";
-import { db } from "~/db.server";
+import { useActionData, useSearchParams } from "@remix-run/react";
 import { badRequest } from "~/request.server";
 import { createUserSession, login } from "~/sessions.server";
 

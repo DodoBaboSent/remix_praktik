@@ -1,7 +1,6 @@
-import { LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
-import { SetStateAction, useState } from "react";
-import { AdTab } from "~/admin-tabs";
+import { LoaderFunctionArgs,  json } from "@remix-run/node";
+import {  useLoaderData } from "@remix-run/react";
+import {  useState } from "react";
 import { db } from "~/db.server";
 import { requireUser } from "~/sessions.server";
 

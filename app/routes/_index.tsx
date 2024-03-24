@@ -16,7 +16,7 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const news = await db.news.findMany({
-    take: 3,
+    take: 2,
   });
   return json({ news });
 }

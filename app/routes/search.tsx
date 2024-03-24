@@ -1,16 +1,12 @@
 import { Breadcrumbs } from "~/breadcrumbs";
 import { NavOuterComponent } from "~/nav";
-import Fuse, { FuseResult } from "fuse.js";
-import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
+import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { db } from "~/db.server";
-import { badRequest } from "~/request.server";
 import {
   Form,
-  useActionData,
   useLoaderData,
   useSearchParams,
 } from "@remix-run/react";
-import { useState } from "react";
 import fuzzysearch from "../fuzzysearch.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
