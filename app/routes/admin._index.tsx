@@ -167,8 +167,8 @@ export default function Login() {
           <button type="submit" className="btn btn-primary mt-3">
             Submit
           </button>
-        </form>
-      </div>
+		  </form>
+	</div>
     </div>
   );
 }

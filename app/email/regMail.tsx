@@ -10,19 +10,20 @@ export function Email(props: EmailProps) {
       <Html lang="ru">
         <Head style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <Img src="./files/logoDVAGP.gif" alt="logo" style={{width: 100}} />
+            <Img src="https://remix-praktik.onrender.com/assets/logoDVAGP.gif" alt="logo" style={{width: 100}} />
           </div>
           <Heading as="h1">Подтвердите активацию аккаунта</Heading>
         </Head>
         <Link
-          href={`https://example.com/activate/${props.id}`}
+          href={`https://remix-praktik.onrender.com/activate/${props.id}`}
           style={{
             padding: "1rem",
             backgroundColor: "#2a4054",
             borderRadius: 5,
+            color: "white",
           }}
         >
-          Активировать ({`activate/${props.id}`})
+          Активировать
         </Link>
       </Html>
     </>
